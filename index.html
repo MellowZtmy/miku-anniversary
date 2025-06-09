@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="images/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="images/favicon.png" type="image/png" />
+    <title>みっくみくな ANNIVERSARY</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Google tag (gtag.js) -->
+    <!-- <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-2N8XCPYE1D"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-2N8XCPYE1D');
+    </script> -->
+  </head>
+  <body>
+    <div id="confetti" class="confetti">
+      <canvas></canvas>
+      <h1 id="header" class="center-text" onclick="location.reload(true) ">
+        みっくみくな <br />ANNIVERSARY
+      </h1>
+      <div class="margin-bottom-100" id="display"></div>
+    </div>
+    <!-- オーバーレイと拡大画像表示用の要素 -->
+    <div id="overlay">
+      <img src="" alt="" />
+    </div>
+    <!-- スピナー -->
+    <div id="spinner" class="spinner"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome 読み込み（CDN） -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"
+    ></script>
+    <script src="js/confetti.js"></script>
+    <script src="js/functions.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

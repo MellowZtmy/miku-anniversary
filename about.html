@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>サイト情報 | ずとまよANNIVERSARY</title>
+    <style>
+      :root {
+        --accent-color: #b449e2;
+        --bg-color: #f9f9fb;
+        --text-color: #333;
+        --tab-bg: #e0e7ef;
+        --tab-active-bg: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+        background: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      h1,
+      h2 {
+        color: var(--accent-color);
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.3rem;
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        border-bottom: 2px solid #ccc;
+        margin-bottom: 1rem;
+        gap: 0.5rem;
+      }
+
+      .tab {
+        flex: 1 1 auto;
+        text-align: center;
+        padding: 0.6rem 1rem;
+        cursor: pointer;
+        background: var(--tab-bg);
+        border-radius: 8px 8px 0 0;
+        transition: all 0.2s ease-in-out;
+        font-weight: 500;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        min-width: 120px;
+        white-space: nowrap;
+      }
+
+      .tab:hover {
+        background: #d0dbea;
+      }
+
+      .tab.active {
+        background: var(--tab-active-bg);
+        font-weight: bold;
+        border-bottom: 2px solid var(--tab-active-bg);
+      }
+
+      .tab-content {
+        display: none;
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      a {
+        word-break: break-word;
+        color: var(--accent-color);
+      }
+
+      @media screen and (max-width: 600px) {
+        body {
+          padding: 1rem;
+        }
+
+        .tab {
+          flex: 1 1 100%;
+          font-size: 1rem;
+        }
+
+        h1 {
+          font-size: 1.3rem;
+        }
+
+        h2 {
+          font-size: 1.1rem;
+        }
+
+        p {
+          font-size: 0.95rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>サイト情報 | ずとまよANNIVERSARY</h1>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="about">このサイトについて</div>
+      <div class="tab" data-tab="disclaimer">免責事項</div>
+      <div class="tab" data-tab="copyright">著作権・引用</div>
+      <div class="tab" data-tab="privacy">プライバシーポリシー</div>
+    </div>
+
+    <section id="about" class="tab-content active">
+      <h2>このサイトについて</h2>
+      <p>
+        「ずとまよANNIVERSARY」は、「ずっと真夜中でいいのに。」の楽曲リリース日を記念してファンの皆さまと一緒にお祝いするための非公式ファンサイトです。
+      </p>
+      <p>
+        本サイトは営利を目的としておらず、掲載している内容は個人の趣味の範囲で運営しています。公式情報については、<a
+          href="https://zutomayo.net/"
+          target="_blank"
+          rel="noopener"
+          >公式サイト</a
+        >や公式SNS等をご確認ください。
+      </p>
+      <p>
+        当サイトは、<a
+          href="https://zutomayo.net/legal/"
+          target="_blank"
+          rel="noopener"
+          >ずっと真夜中でいいのに。公式ガイドライン</a
+        >を遵守しており、著作権や肖像権の侵害を目的としたコンテンツの掲載は一切行っておりません。
+      </p>
+    </section>
+
+    <section id="disclaimer" class="tab-content">
+      <h2>免責事項</h2>
+      <p>
+        当サイトのコンテンツは正確な情報を提供するよう努めていますが、その内容の正確性・信頼性・安全性について保証するものではありません。
+      </p>
+      <p>
+        当サイトの情報に基づいて生じた損害について、管理人は一切の責任を負いかねます。また、外部リンク先の内容や利用に関しても責任を負いませんのでご了承ください。
+      </p>
+    </section>
+
+    <section id="copyright" class="tab-content">
+      <h2>著作権・引用について</h2>
+      <p>
+        当サイトに掲載されている文章・画像・リンク情報などの著作権は、各権利者または当サイト管理人に帰属します。
+      </p>
+      <p>
+        楽曲名や画像などを紹介する際には、著作権法第32条に基づき、引用の範囲を守りつつ、出典の明記や公式へのリンクを可能な限り行っております。
+      </p>
+      <p>
+        また、当サイトは「ずっと真夜中でいいのに。」公式ガイドライン（<a
+          href="https://zutomayo.net/legal/"
+          target="_blank"
+          rel="noopener"
+          >https://zutomayo.net/legal/</a
+        >）を遵守しています。
+      </p>
+      <p>
+        万が一、掲載内容に問題がございましたら、お手数ですが以下の連絡先までご一報いただければ、速やかに対応いたします。
+      </p>
+      <p>
+        📩 ご連絡先：<a href="mailto:mellowztmy@gmail.com"
+          >mellowztmy@gmail.com</a
+        >
+      </p>
+    </section>
+
+    <section id="privacy" class="tab-content">
+      <h2>プライバシーポリシー</h2>
+      <p>
+        当サイトではCookie等の情報収集を行う場合がありますが、個人を特定する情報を意図的に収集することはありません。
+      </p>
+      <p>
+        Cookieの利用を望まない場合は、お使いのブラウザ設定にて無効にすることが可能です。
+      </p>
+    </section>
+
+    <script>
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          tabs.forEach((t) => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          const target = tab.dataset.tab;
+          contents.forEach((c) => {
+            c.classList.toggle('active', c.id === target);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
