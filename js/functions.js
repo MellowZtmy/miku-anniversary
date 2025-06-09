@@ -192,7 +192,7 @@ function createSortTag(display) {
 }
 
 function createPagingTag(display) {
-  const tagLimit = 5; // 最大表示ボタン数
+  const tagLimit = appsettings.pagingDispCount; // 最大表示ボタン数
   const totalItems = display.data.length;
   const itemsPerPage = display.cardPerPage;
   const currentPage = display.page;
