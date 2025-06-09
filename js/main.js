@@ -225,7 +225,9 @@ function createDisplay(mode, page, sortMode) {
         song[appsettings.writerCol] +
         '<br>作曲：' +
         song[appsettings.composerCol] +
-        '<br>ボーカロイド：' +
+        '<br>編曲：' +
+        song[appsettings.arrangerCol] +
+        '<br>唄：' +
         song[appsettings.vocaloidCol] +
         '</div>';
 
