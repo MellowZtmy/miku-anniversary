@@ -261,17 +261,16 @@ function createCardTitleTag(
 }
 
 // Youtubeタグ作成
-function createYoutubeTag(id, isPlayList) {
+function createMvTag(id, mvSite) {
   // 変数初期化
   var tag = '';
 
   // タグ生成
   tag += '<div class="card-iframe-container">';
-  tag +=
-    '        <iframe src="https://www.youtube.com/embed/' +
-    (isPlayList ? 'videoseries?list=' : '?loop=1&playlist=') +
-    id +
-    '" frameborder="0" allowfullscreen>';
+  tag += mvSite.startsWith('ニコニコ')
+    ? '     <iframe src="https://embed.nicovideo.jp/watch/' //ニコニコ
+    : '            src="https://www.youtube.com/embed/'; // YouTube
+  tag += id + '" frameborder="0" allowfullscreen>';
   tag += '   </iframe> ';
   tag += '</div> ';
 

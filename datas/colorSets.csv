@@ -1,25 +1,6 @@
-曲名,背景(グラデーションの場合あり),テキスト線,ボタン,ボタン文字色
-ZTMY,#9932cc,#000,#5f52a0,#fff
-秒針を噛む,#e0a983,#2e3743,#3e8b93,#ecdcb8
-脳裏上のクラッカー,#3e8b93,#272f2e,#e0a983,#fcdac7
-ヒューマノイド,#acabac,#030302,#e8eb63,#000000
-眩しいDNAだけ,linear-gradient(#48655b，#b59b4c),#241914,#7a9a71,#211812
-正義,#f6efe4,#660804,#ecccb0,#660804
-勘冴えて悔しいわ,#c5bfe1,#020009,#ac022a,#c6c0e0
-蹴っ飛ばした毛布,#030208,#f5f0f2,#dd5453,#f5f0f2
-ハゼ馳せる果てるまで,#e1ac80,#0296e3,#0296e3,#eaedea
-MILABO,#dde4d6,#0aaeb0,#0aaeb0,#f6fbeb
-Ham,linear-gradient(#4fc3c7， #8bbb95),#282827,#95b79b,#282827
-ばかじゃないのに,#fff0fd,#eb007b,#d282c3,#020002
-袖のキルト,#f7f3fa,#e6332b,#35d8cf,#fff
-夏枯れ,#004698,#000305,#034126,#fff
-綺羅キラー,#b2c5ba,#1d5e3f,#57af88,#c9b850
-ミラーチューン,#7c2ebf,#f786b6,#301645,#fff
-花一匁,linear-gradient(#020018，#310074),#c372e4,#470081,#b6b6b6
-噓じゃない,#f0ebe0,#614c86,#8dd085,#614c86
-Blues in the Closet,linear-gradient(#789b98，#c1dcda),#524845,#c0d5d0,#524845
-海馬成長痛,linear-gradient(#050407，#905fef),#a1ff42,#a1ff44,#9b34f8
-クズリ念,linear-gradient(#eb9963，#31a9ab),#f2f2f4,#f2f2f4,#f2f2f4
-シェードの埃は延長,#b1211d,#f0ad4f,#131211,#f0ad4f
-微熱魔,linear-gradient(#ffffff，#b5c9ec),#44464d,#ead3d9,#5a9dc6
-クリームで会いにいけますか,linear-gradient(#eaada9，#fe86cf),#594161,#c6ef85,#594161
+色名,背景(グラデーションの場合あり),テキスト線,ボタン,ボタン文字色
+初音ミク,linear-gradient(#95d2d3，#2a9795),#27292b,#fb8ec4,#ffffff
+鏡音リン・レン,linear-gradient(#fffbd1，#fede4a),#141819,#0277b4,#ffffff
+巡音ルカ,linear-gradient(#fdf1f8，#dcb1cb),#1f334e,#b23f93,#ffffff
+GUMI,linear-gradient(#fff586，#ffa371),#1f334e,#81ca96,#ffffff
+ia,linear-gradient(#ffffff，#ece5dc),#e97a9c,#485253,#ffffff

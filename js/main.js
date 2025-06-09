@@ -102,10 +102,10 @@ $(document).ready(async function () {
     if (isMikuBirthday) {
       // タイトル変更;
       $('#header').html(
-        `ずとまよ <br />${globalToday.getFullYear() - 2018}th ANNIVERSARY!!`
+        `みっくみくな <br />${globalToday.getFullYear() - 2007}th ANNIVERSARY!!`
       );
-      //カラーを花一匁に変更
-      setLocal('colorIndex', 16);
+      //カラーを初音ミクに変更
+      setLocal('colorIndex', 0);
     }
 
     // 開始画面を表示
@@ -171,26 +171,6 @@ function createDisplay(mode, page, sortMode) {
     globalToday.toLocaleDateString('ja-JP').replace(/\./g, '/') +
     '</p>';
 
-  // タブ
-  tag += ' <div class="tab-content">';
-  Object.values(DISPLAY).forEach(function (disp) {
-    tag +=
-      ' <div ' +
-      (disp.mode !== display.mode
-        ? 'onclick="createDisplay(' +
-          disp.mode +
-          ',1,' +
-          SORTMODE.ANNIVERSARY.code +
-          ')"'
-        : '') +
-      ' class="tab-item ' +
-      (disp.mode === display.mode ? 'tab-selected' : 'tab-unselected') +
-      '">' +
-      disp.name +
-      '</div>';
-  });
-  tag += ' </div>';
-
   // ソート作成
   tag += createSortTag(display);
 
@@ -232,7 +212,10 @@ function createDisplay(mode, page, sortMode) {
       );
 
       // MV Youtube表示
-      tag += createYoutubeTag(song[appsettings.mvIdCol], false);
+      tag += createMvTag(
+        song[appsettings.mvIdCol],
+        song[appsettings.mvSiteCol]
+      );
       // ここまでMV Youtube
 
       // MV 情報
@@ -242,37 +225,33 @@ function createDisplay(mode, page, sortMode) {
         song[appsettings.writerCol] +
         '<br>作曲：' +
         song[appsettings.composerCol] +
-        '<br>編曲：' +
-        song[appsettings.arrangerCol] +
-        '<br>MV：' +
-        song[appsettings.mvDirectorCol] +
         '</div>';
 
-      // アルバム
-      tag += ' <div class="album-container">';
-      var album = song[appsettings.albumCol];
-      if (album !== appsettings.noDataString) {
-        tag +=
-          '<img src="' +
-          appsettings.albumImagePath +
-          album +
-          '.jpg" alt="' +
-          album +
-          '"class="album album">';
-      }
+      // // アルバム
+      // tag += ' <div class="album-container">';
+      // var album = song[appsettings.albumCol];
+      // if (album !== appsettings.noDataString) {
+      //   tag +=
+      //     '<img src="' +
+      //     appsettings.albumImagePath +
+      //     album +
+      //     '.jpg" alt="' +
+      //     album +
+      //     '"class="album album">';
+      // }
 
-      // ミニアルバム
-      var minialbum = song[appsettings.minialbumCol];
-      if (minialbum !== appsettings.noDataString) {
-        tag +=
-          '<img src="' +
-          appsettings.albumImagePath +
-          minialbum +
-          '.jpg" alt="' +
-          minialbum +
-          '" class="album album">';
-      }
-      tag += '        </div>'; //album-container
+      // // ミニアルバム
+      // var minialbum = song[appsettings.minialbumCol];
+      // if (minialbum !== appsettings.noDataString) {
+      //   tag +=
+      //     '<img src="' +
+      //     appsettings.albumImagePath +
+      //     minialbum +
+      //     '.jpg" alt="' +
+      //     minialbum +
+      //     '" class="album album">';
+      // }
+      // tag += '        </div>'; //album-container
       tag += '        </div>'; //card-info-container
 
       // MV公開年月日
