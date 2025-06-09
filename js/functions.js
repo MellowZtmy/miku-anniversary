@@ -115,9 +115,21 @@ function getYearsToNextMonthDay(pastDateString) {
   );
 }
 
-// 過去日からの日数取得
+// 過去日からの日数取得（日付の0埋めや曜日ありでも対応）
 function getDaysFromDate(dateString) {
-  const inputDate = new Date(dateString.replace(/\//g, '-'));
+  // 曜日などの余分な文字列を削除（例："(月)" や "（月）"）
+  const cleanedDate = dateString
+    .replace(/[（(][^）)]+[）)]/, '') // "（月）" や "(月)" の除去
+    .trim()
+    .replace(/\//g, '-'); // "/" を "-" に統一
+
+  // Date オブジェクトに変換
+  const inputDate = new Date(cleanedDate);
+  if (isNaN(inputDate)) {
+    throw new Error(`無効な日付形式です: ${dateString}`);
+  }
+
+  // 日数差を計算（+1して今日を含む）
   const diffTime = globalToday - inputDate.getTime();
   return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 }
