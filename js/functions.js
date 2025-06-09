@@ -179,34 +179,45 @@ function createSortTag(display) {
   return tag;
 }
 
-// ページングタグ作成
 function createPagingTag(display) {
-  // 変数初期化
-  var tag = '';
-  var pageIndex = 0;
+  const tagLimit = 5; // 最大表示ボタン数
+  const totalItems = display.data.length;
+  const itemsPerPage = display.cardPerPage;
+  const currentPage = display.page;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  // タグ生成
-  tag += '<div class="pagination">';
+  let tag = '<div class="pagination">';
 
-  // 設定ファイルの「1ページ当たり表示数」分行ループ
-  for (let i = 0; i < display.data.length; i += display.cardPerPage) {
-    pageIndex++;
+  // 「≪」最初のページへ
+  if (currentPage > 1) {
+    tag += `<a class="active" onclick="createDisplay(${display.mode}, 1, ${display.sortMode})">≪</a>`;
+  } else {
+    tag += `<a class="disabled">≪</a>`;
+  }
+
+  // ページ範囲の計算
+  let startPage = Math.max(1, currentPage - Math.floor(tagLimit / 2));
+  let endPage = startPage + tagLimit - 1;
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, endPage - tagLimit + 1);
+  }
+
+  // 数字ボタン
+  for (let pageIndex = startPage; pageIndex <= endPage; pageIndex++) {
     tag +=
-      ' <a class="' +
-      (display.page === pageIndex ? 'disabled' : 'active') +
-      '" onclick="createDisplay(' +
-      display.mode +
-      ',' +
-      pageIndex +
-      ',' +
-      display.sortMode +
-      ')">' +
-      pageIndex +
-      '</a>';
+      `<a class="${currentPage === pageIndex ? 'disabled' : 'active'}" ` +
+      `onclick="createDisplay(${display.mode}, ${pageIndex}, ${display.sortMode})">${pageIndex}</a>`;
+  }
+
+  // 「≫」最後のページへ
+  if (currentPage < totalPages) {
+    tag += `<a class="active" onclick="createDisplay(${display.mode}, ${totalPages}, ${display.sortMode})">≫</a>`;
+  } else {
+    tag += `<a class="disabled">≫</a>`;
   }
 
   tag += '</div>';
-
   return tag;
 }
 
