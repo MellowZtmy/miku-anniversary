@@ -71,18 +71,22 @@ $(document).ready(async function () {
         ].sort(),
         vocaloids: [
           'すべて',
-          ...new Set(
-            songsData.flatMap(
-              (row) =>
-                row[appsettings.vocaloidCol]
-                  ?.split('・')
-                  .map((v) => v.trim()) || []
+          ...Array.from(
+            new Set(
+              songsData.flatMap(
+                (row) =>
+                  row[appsettings.vocaloidCol]
+                    ?.split('・')
+                    .map((v) => v.trim()) || []
+              )
             )
-          ),
+          ).sort(),
         ],
         composers: [
           'すべて',
-          ...new Set(songsData.map((row) => row[appsettings.composerCol])),
+          ...Array.from(
+            new Set(songsData.map((row) => row[appsettings.composerCol]))
+          ).sort(),
         ],
       },
     };
