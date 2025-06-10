@@ -204,6 +204,55 @@ function createYearFilter(generations, startYear, endYear) {
   `;
 }
 
+/**
+ * ボーカロイドフィルターのHTMLを生成します。
+ * @param {Array<string>} vocaloids - 表示するボーカロイドのリスト。
+ * @param {string} selectedVocaloid - 現在選択されているボーカロイド。
+ * @returns {string} ボーカロイドフィルターのHTML文字列。
+ */
+function createVocaloidFilter(vocaloids, selectedVocaloid) {
+  let html = '';
+  html += ' <div class="year-select-container"> ';
+  html += ' <label class="year-select-label">歌：</label> ';
+  html += ' <div class="year-select"> ';
+  html += `   <select id="vocaloid" style="width: 200px !important;"`;
+  // onchangeイベントの引数は、実際のcreateDisplay関数の定義に合わせて調整してください。
+  html += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), this.value, $('#vocaloP').val())"> `;
+  vocaloids.forEach(function (eachVocaloid) {
+    const selected =
+      selectedVocaloid && eachVocaloid === selectedVocaloid ? 'selected' : '';
+    html += `<option value="${eachVocaloid}" ${selected}>${eachVocaloid}</option>`;
+  });
+  html += '   </select> ';
+  html += ' </div> ';
+  html += ' </div> ';
+  return html;
+}
+
+/**
+ * 作曲者フィルターのHTMLを生成します。
+ * @param {Array<string>} composers - 表示する作曲者のリスト。
+ * @param {string} selectedComposer - 現在選択されている作曲者。
+ * @returns {string} 作曲者フィルターのHTML文字列。
+ */
+function createComposerFilter(composers, selectedComposer) {
+  let html = '';
+  html += ' <div class="year-select-container"> ';
+  html += ' <label class="year-select-label">作曲：</label> ';
+  html += ' <div class="year-select"> ';
+  html += `   <select id="vocaloP" `;
+  // onchangeイベントの引数は、実際のcreateDisplay関数の定義に合わせて調整してください。
+  html += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), this.value)"> `;
+  composers.forEach(function (eachComposer) {
+    const selected =
+      selectedComposer && eachComposer === selectedComposer ? 'selected' : '';
+    html += `<option value="${eachComposer}" ${selected}>${eachComposer}</option>`;
+  });
+  html += '   </select> ';
+  html += ' </div> ';
+  html += ' </div> ';
+  return html;
+}
 // ソートタグ作成
 function createSortTag(display) {
   // 変数初期化

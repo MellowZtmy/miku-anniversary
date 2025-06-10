@@ -217,32 +217,10 @@ function createDisplay(
   tag += createYearFilter(display.generations, startYear, endYear);
 
   // ボーカロイドフィルター作成
-  tag += ' <div class="year-select-container"> ';
-  tag += ' <label class="year-select-label">歌：</label> ';
-  tag += ' <div class="year-select"> ';
-  tag += `   <select id="vocaloid"  `;
-  tag += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), this.value, $('#vocaloP').val())"> `;
-  display.vocaloids.forEach(function (eachVocaloid) {
-    let selected = vocaloid && eachVocaloid === vocaloid ? 'selected' : '';
-    tag += `<option value="${eachVocaloid}" ${selected}>${eachVocaloid}</option>`;
-  });
-  tag += '   </select> ';
-  tag += ' </div> ';
-  tag += ' </div> ';
+  tag += createVocaloidFilter(display.vocaloids, vocaloid);
 
   // ボカロPフィルター作成
-  tag += ' <div class="year-select-container"> ';
-  tag += ' <label class="year-select-label">作曲：</label> ';
-  tag += ' <div class="year-select"> ';
-  tag += `   <select id="vocaloP"   `;
-  tag += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), this.value)"> `;
-  display.composers.forEach(function (eachComposer) {
-    let selected = composer && eachComposer === composer ? 'selected' : '';
-    tag += `<option value="${eachComposer}" ${selected}>${eachComposer}</option>`;
-  });
-  tag += '   </select> ';
-  tag += ' </div> ';
-  tag += ' </div> ';
+  tag += createComposerFilter(display.composers, composer);
 
   tag += ' <h2 class="h2-display">Result</h2>';
   // ソート作成
