@@ -184,14 +184,14 @@ function createYearFilter(generations, startYear, endYear) {
   const startSelect = `
     <select id="startYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${
     SORTMODE.ANNIVERSARY.code
-  }, this.value, $('#endYear').val())">
+  }, this.value, $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">
       ${createOptions(generations, startYear, true)}
     </select>`;
 
   const endSelect = `
     <select id="endYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${
     SORTMODE.ANNIVERSARY.code
-  }, $('#startYear').val(), this.value)">
+  }, $('#startYear').val(), this.value, $('#vocaloid').val(), $('#vocaloP').val())">
       ${createOptions(generations, endYear, false)}
     </select>`;
 
@@ -220,7 +220,7 @@ function createSortTag(display) {
       display.mode +
       ',1,' +
       sortMode.code +
-      `, $('#startYear').val(), $('#endYear').val())">` +
+      `, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">` +
       sortMode.name +
       '</a>';
   });
@@ -240,7 +240,7 @@ function createPagingTag(display, sortedData) {
 
   // 「≪」最初のページへ
   if (currentPage > 1) {
-    tag += `<a class="active" onclick="createDisplay(${display.mode}, 1, ${display.sortMode}, $('#startYear').val(), $('#endYear').val())">≪</a>`;
+    tag += `<a class="active" onclick="createDisplay(${display.mode}, 1, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">≪</a>`;
   } else {
     tag += `<a class="disabled">≪</a>`;
   }
@@ -257,12 +257,12 @@ function createPagingTag(display, sortedData) {
   for (let pageIndex = startPage; pageIndex <= endPage; pageIndex++) {
     tag +=
       `<a class="${currentPage === pageIndex ? 'disabled' : 'active'}" ` +
-      `onclick="createDisplay(${display.mode}, ${pageIndex}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val())">${pageIndex}</a>`;
+      `onclick="createDisplay(${display.mode}, ${pageIndex}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">${pageIndex}</a>`;
   }
 
   // 「≫」最後のページへ
   if (currentPage < totalPages) {
-    tag += `<a class="active" onclick="createDisplay(${display.mode}, ${totalPages}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val())">≫</a>`;
+    tag += `<a class="active" onclick="createDisplay(${display.mode}, ${totalPages}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">≫</a>`;
   } else {
     tag += `<a class="disabled">≫</a>`;
   }

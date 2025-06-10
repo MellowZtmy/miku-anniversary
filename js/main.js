@@ -109,7 +109,9 @@ $(document).ready(async function () {
       1,
       SORTMODE.ANNIVERSARY.code,
       DISPLAY.MV.generations[0],
-      DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1]
+      DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
+      DISPLAY.MV.vocaloids[0],
+      DISPLAY.MV.composers[0]
     );
   } catch (error) {
     // エラーハンドリング
@@ -159,13 +161,33 @@ function createDisplay(
           display.sortCol,
           SORTMODE.HISTORY.defaultSortOrder
         );
-  //フィルター項目
+  // フィルター項目
   sortedData = sortedData.filter((song) => {
-    // 年フィルター
-    const releaseYear = song[appsettings.MVReleaseDateCol].slice(0, 4);
-    const startYearTemp = startYear < endYear ? startYear : endYear;
-    const endYearTemp = startYear < endYear ? endYear : startYear;
-    return releaseYear >= startYearTemp && releaseYear <= endYearTemp;
+    const releaseYear = parseInt(
+      song[appsettings.MVReleaseDateCol].slice(0, 4),
+      10
+    );
+
+    // 年フィルターの範囲を正規化
+    const [minYear, maxYear] = [startYear, endYear].sort((a, b) => a - b);
+
+    // 各フィルターの結果を変数に格納
+    const passesVocaloidFilter =
+      vocaloid === 'すべて' ||
+      song[appsettings.vocaloidCol]
+        .split('・')
+        .map((v) => v.trim())
+        .includes(vocaloid);
+
+    const passesComposerFilter =
+      composer === 'すべて' ||
+      song[appsettings.composerCol] === composer ||
+      song[appsettings.composerCol].includes(composer);
+
+    const passesYearFilter = releaseYear >= minYear && releaseYear <= maxYear;
+
+    // すべてのフィルターをAND条件で結合
+    return passesVocaloidFilter && passesComposerFilter && passesYearFilter;
   });
 
   // 表示開始/終了index
@@ -198,7 +220,8 @@ function createDisplay(
   tag += ' <div class="year-select-container"> ';
   tag += ' <label class="year-select-label">歌：</label> ';
   tag += ' <div class="year-select"> ';
-  tag += `   <select id="vocaloid" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val())"> `;
+  tag += `   <select id="vocaloid"  `;
+  tag += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), this.value, $('#vocaloP').val())"> `;
   display.vocaloids.forEach(function (eachVocaloid) {
     let selected = vocaloid && eachVocaloid === vocaloid ? 'selected' : '';
     tag += `<option value="${eachVocaloid}" ${selected}>${eachVocaloid}</option>`;
@@ -211,7 +234,8 @@ function createDisplay(
   tag += ' <div class="year-select-container"> ';
   tag += ' <label class="year-select-label">作曲：</label> ';
   tag += ' <div class="year-select"> ';
-  tag += `   <select id="vocaloP" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val())"> `;
+  tag += `   <select id="vocaloP"   `;
+  tag += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), this.value)"> `;
   display.composers.forEach(function (eachComposer) {
     let selected = composer && eachComposer === composer ? 'selected' : '';
     tag += `<option value="${eachComposer}" ${selected}>${eachComposer}</option>`;
