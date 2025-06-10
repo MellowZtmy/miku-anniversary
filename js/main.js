@@ -224,7 +224,7 @@ function createDisplay(
 
   tag += ' <h2 class="h2-display">Result</h2>';
   // ソート作成
-  tag += createSortTag(display);
+  tag += createSortTag(display, sortedData);
 
   // ページング作成
   tag += createPagingTag(display, sortedData);
@@ -304,8 +304,14 @@ function createDisplay(
       tag += '        </div>'; //card-item
     });
     tag += '         </div>'; //card-list
-    // 敬称略
-    tag += '<div class="right-text">※敬称略です</div>';
+    // 敬称略 or 該当なし
+    if (sortedData.length !== 0) {
+      tag += '<div class="right-text">※敬称略です</div>';
+    } else {
+      tag += `<div class="center-text larger-text" onclick="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code,
+                                                                          DISPLAY.MV.generations[0],DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
+                                                                          DISPLAY.MV.vocaloids[0],DISPLAY.MV.composers[0]);">タップでクリア↺</div>`;
+    }
   }
 
   // ページング作成

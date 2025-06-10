@@ -68,6 +68,10 @@ h1 {
   margin: auto auto 100px auto;
 }
 
+.larger-text {
+  font-weight: bold;
+  font-size: 1.4em;
+}
 /* mv用CSS */
 .card-list {
   display: flex;

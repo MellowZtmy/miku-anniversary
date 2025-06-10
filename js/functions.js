@@ -254,7 +254,12 @@ function createComposerFilter(composers, selectedComposer) {
   return html;
 }
 // ソートタグ作成
-function createSortTag(display) {
+function createSortTag(display, sortedData) {
+  //データなしの場合何もしない
+  if (sortedData.length === 0) {
+    return '';
+  }
+
   // 変数初期化
   var tag = '';
 
@@ -285,6 +290,12 @@ function createPagingTag(display, sortedData) {
   const currentPage = display.page;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+  //データなしの場合何もしない
+  if (totalItems === 0) {
+    return '';
+  }
+
+  // ページングタグの初期化
   let tag = '<div class="pagination">';
 
   // 「≪」最初のページへ
