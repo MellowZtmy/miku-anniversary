@@ -260,31 +260,6 @@ function createDisplay(mode, page, sortMode, startYear, endYear) {
         song[appsettings.vocaloidCol] +
         '</div>';
 
-      // // アルバム
-      // tag += ' <div class="album-container">';
-      // var album = song[appsettings.albumCol];
-      // if (album !== appsettings.noDataString) {
-      //   tag +=
-      //     '<img src="' +
-      //     appsettings.albumImagePath +
-      //     album +
-      //     '.jpg" alt="' +
-      //     album +
-      //     '"class="album album">';
-      // }
-
-      // // ミニアルバム
-      // var minialbum = song[appsettings.minialbumCol];
-      // if (minialbum !== appsettings.noDataString) {
-      //   tag +=
-      //     '<img src="' +
-      //     appsettings.albumImagePath +
-      //     minialbum +
-      //     '.jpg" alt="' +
-      //     minialbum +
-      //     '" class="album album">';
-      // }
-      // tag += '        </div>'; //album-container
       tag += '        </div>'; //card-info-container
 
       tag +=
@@ -330,10 +305,6 @@ function createDisplay(mode, page, sortMode, startYear, endYear) {
     // 6月4日限定の紙吹雪
     $('#confetti').prepend('<canvas id="canvas"></canvas>');
     dispConfettifor0604();
-  } else if (leftDaysList.includes(0)) {
-    // 記念日のものがある場合
-    $('#confetti').prepend('<canvas id="canvas"></canvas>');
-    dispConfetti();
   }
 
   // CSS適用

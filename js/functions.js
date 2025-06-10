@@ -293,7 +293,7 @@ function createMvTag(id, mvSite) {
   tag += mvSite.startsWith('ニコニコ')
     ? '     <iframe src="https://embed.nicovideo.jp/watch/' //ニコニコ
     : '            src="https://www.youtube.com/embed/'; // YouTube
-  tag += id + '" frameborder="0" allowfullscreen>';
+  tag += id + '?loop=1" frameborder="0" allowfullscreen>';
   tag += '   </iframe> ';
   tag += '</div> ';
 
