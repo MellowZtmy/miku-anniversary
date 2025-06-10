@@ -166,6 +166,44 @@ function sortByMonthDay(arr, sortColIndex, sortOrder) {
   );
 }
 
+// 年フィルター作成
+function createYearFilter(generations, startYear, endYear) {
+  function createOptions(years, selectedYear, isStart) {
+    return years
+      .map((year, i) => {
+        const defaultSelected = isStart
+          ? !selectedYear && i === 0
+          : !selectedYear && i === years.length - 1;
+        const selected =
+          selectedYear === year || defaultSelected ? 'selected' : '';
+        return `<option value="${year}" ${selected}>${year}年</option>`;
+      })
+      .join('');
+  }
+
+  const startSelect = `
+    <select id="startYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${
+    SORTMODE.ANNIVERSARY.code
+  }, this.value, $('#endYear').val())">
+      ${createOptions(generations, startYear, true)}
+    </select>`;
+
+  const endSelect = `
+    <select id="endYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${
+    SORTMODE.ANNIVERSARY.code
+  }, $('#startYear').val(), this.value)">
+      ${createOptions(generations, endYear, false)}
+    </select>`;
+
+  return `
+    <div class="year-select-container">
+      <div class="year-select">${startSelect}</div>
+      <label class="year-select-label">～</label>
+      <div class="year-select">${endSelect}</div>
+    </div>
+  `;
+}
+
 // ソートタグ作成
 function createSortTag(display) {
   // 変数初期化

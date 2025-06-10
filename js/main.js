@@ -69,6 +69,19 @@ $(document).ready(async function () {
             )
           ),
         ].sort(),
+        vocaloids: [
+          ...new Set(
+            songsData.flatMap(
+              (row) =>
+                row[appsettings.vocaloidCol]
+                  ?.split('・')
+                  .map((v) => v.trim()) || []
+            )
+          ),
+        ],
+        composers: [
+          ...new Set(songsData.map((row) => row[appsettings.composerCol])),
+        ],
       },
     };
 
@@ -168,36 +181,9 @@ function createDisplay(mode, page, sortMode, startYear, endYear) {
   // フィルター
   tag += ' <h2 class="h2-display">Filter</h2>';
 
-  tag += ' <div class="year-select-container"> ';
-  tag += ' <div class="year-select"> ';
-  // 開始年
-  tag += `   <select id="startYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, this.value, $('#endYear').val())"> `;
-  display.generations.forEach(function (generation) {
-    let selected =
-      (!startYear && generation === display.generations[0]) ||
-      (startYear && generation === startYear)
-        ? 'selected'
-        : '';
-    tag += `<option value="${generation}" ${selected}>${generation}年</option>`;
-  });
-  tag += '   </select> ';
-  tag += ' </div> ';
-  // 終了年
-  tag += ' <label class="year-select-label">～</label> ';
-  tag += ' <div class="year-select"> ';
-  tag += `   <select id="endYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), this.value)"> `;
-  display.generations.forEach(function (generation) {
-    let selected =
-      (!endYear &&
-        generation === display.generations[display.generations.length - 1]) ||
-      (endYear && generation === endYear)
-        ? 'selected'
-        : '';
-    tag += `<option value="${generation}" ${selected}>${generation}年</option>`;
-  });
-  tag += '   </select> ';
-  tag += ' </div> ';
-  tag += ' </div> ';
+  // 年フィルター作成
+  tag += createYearFilter(display.generations, startYear, endYear);
+
   tag += ' <h2 class="h2-display">Result</h2>';
   // ソート作成
   tag += createSortTag(display);
