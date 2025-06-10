@@ -70,6 +70,7 @@ $(document).ready(async function () {
           ),
         ].sort(),
         vocaloids: [
+          'すべて',
           ...new Set(
             songsData.flatMap(
               (row) =>
@@ -80,6 +81,7 @@ $(document).ready(async function () {
           ),
         ],
         composers: [
+          'すべて',
           ...new Set(songsData.map((row) => row[appsettings.composerCol])),
         ],
       },
@@ -119,7 +121,15 @@ $(document).ready(async function () {
 });
 
 // 画面タグ作成
-function createDisplay(mode, page, sortMode, startYear, endYear) {
+function createDisplay(
+  mode,
+  page,
+  sortMode,
+  startYear,
+  endYear,
+  vocaloid,
+  composer
+) {
   // ページング、ソートモード保持
   for (let key in DISPLAY) {
     if (DISPLAY[key].mode === mode) {
@@ -184,6 +194,32 @@ function createDisplay(mode, page, sortMode, startYear, endYear) {
   // 年フィルター作成
   tag += createYearFilter(display.generations, startYear, endYear);
 
+  // ボーカロイドフィルター作成
+  tag += ' <div class="year-select-container"> ';
+  tag += ' <label class="year-select-label">歌：</label> ';
+  tag += ' <div class="year-select"> ';
+  tag += `   <select id="vocaloid" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val())"> `;
+  display.vocaloids.forEach(function (eachVocaloid) {
+    let selected = vocaloid && eachVocaloid === vocaloid ? 'selected' : '';
+    tag += `<option value="${eachVocaloid}" ${selected}>${eachVocaloid}</option>`;
+  });
+  tag += '   </select> ';
+  tag += ' </div> ';
+  tag += ' </div> ';
+
+  // ボカロPフィルター作成
+  tag += ' <div class="year-select-container"> ';
+  tag += ' <label class="year-select-label">作曲：</label> ';
+  tag += ' <div class="year-select"> ';
+  tag += `   <select id="vocaloP" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val())"> `;
+  display.composers.forEach(function (eachComposer) {
+    let selected = composer && eachComposer === composer ? 'selected' : '';
+    tag += `<option value="${eachComposer}" ${selected}>${eachComposer}</option>`;
+  });
+  tag += '   </select> ';
+  tag += ' </div> ';
+  tag += ' </div> ';
+
   tag += ' <h2 class="h2-display">Result</h2>';
   // ソート作成
   tag += createSortTag(display);
@@ -242,7 +278,7 @@ function createDisplay(mode, page, sortMode, startYear, endYear) {
         song[appsettings.composerCol] +
         '<br>編曲：' +
         song[appsettings.arrangerCol] +
-        '<br>唄：' +
+        '<br>歌：' +
         song[appsettings.vocaloidCol] +
         '</div>';
 
@@ -296,10 +332,10 @@ function createDisplay(mode, page, sortMode, startYear, endYear) {
   // CSS適用
   changeColor(0);
 
-  // 背景画像のcss設定
-  cssRules.forEach((rule) =>
-    styleSheet.insertRule(rule, styleSheet.cssRules.length)
-  );
+  // TODO 背景画像のcss設定
+  // cssRules.forEach((rule) =>
+  //   styleSheet.insertRule(rule, styleSheet.cssRules.length)
+  // );
 
   // 画像拡大設定
   addEnlargeImageEvent();
