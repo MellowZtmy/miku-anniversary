@@ -182,7 +182,7 @@ function createSortTag(display) {
       display.mode +
       ',1,' +
       sortMode.code +
-      ')">' +
+      `, $('#startYear').val(), $('#endYear').val())">` +
       sortMode.name +
       '</a>';
   });
@@ -191,9 +191,9 @@ function createSortTag(display) {
   return tag;
 }
 
-function createPagingTag(display) {
+function createPagingTag(display, sortedData) {
   const tagLimit = appsettings.pagingDispCount; // 最大表示ボタン数
-  const totalItems = display.data.length;
+  const totalItems = sortedData.length;
   const itemsPerPage = display.cardPerPage;
   const currentPage = display.page;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -202,7 +202,7 @@ function createPagingTag(display) {
 
   // 「≪」最初のページへ
   if (currentPage > 1) {
-    tag += `<a class="active" onclick="createDisplay(${display.mode}, 1, ${display.sortMode})">≪</a>`;
+    tag += `<a class="active" onclick="createDisplay(${display.mode}, 1, ${display.sortMode}, $('#startYear').val(), $('#endYear').val())">≪</a>`;
   } else {
     tag += `<a class="disabled">≪</a>`;
   }
@@ -219,12 +219,12 @@ function createPagingTag(display) {
   for (let pageIndex = startPage; pageIndex <= endPage; pageIndex++) {
     tag +=
       `<a class="${currentPage === pageIndex ? 'disabled' : 'active'}" ` +
-      `onclick="createDisplay(${display.mode}, ${pageIndex}, ${display.sortMode})">${pageIndex}</a>`;
+      `onclick="createDisplay(${display.mode}, ${pageIndex}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val())">${pageIndex}</a>`;
   }
 
   // 「≫」最後のページへ
   if (currentPage < totalPages) {
-    tag += `<a class="active" onclick="createDisplay(${display.mode}, ${totalPages}, ${display.sortMode})">≫</a>`;
+    tag += `<a class="active" onclick="createDisplay(${display.mode}, ${totalPages}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val())">≫</a>`;
   } else {
     tag += `<a class="disabled">≫</a>`;
   }

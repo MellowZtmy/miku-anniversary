@@ -58,38 +58,18 @@ $(document).ready(async function () {
         mode: 0,
         name: 'MV',
         page: 1,
-        data: songsData.filter(
-          (row) =>
-            row[appsettings.MVReleaseDateCol] !== appsettings.noDataString
-        ),
+        data: songsData,
         sortCol: appsettings.MVReleaseDateCol,
         sortMode: SORTMODE.ANNIVERSARY.code,
         cardPerPage: appsettings.cardPerPageMV,
+        generations: [
+          ...new Set(
+            songsData.map((row) =>
+              row[appsettings.MVReleaseDateCol].slice(0, 4)
+            )
+          ),
+        ].sort(),
       },
-      // ALBUM: {
-      //   mode: 1,
-      //   name: 'ALBUM',
-      //   page: 1,
-      //   data: await fetchCsvData(
-      //     appsettings.albumsFileName,
-      //     appsettings.albumsSkipRowCount
-      //   ),
-      //   sortCol: appsettings.albumReleaseDateCol,
-      //   sortMode: SORTMODE.ANNIVERSARY.code,
-      //   cardPerPage: appsettings.cardPerPageAlbum,
-      // },
-      // LIVE: {
-      //   mode: 2,
-      //   name: 'LIVE',
-      //   page: 1,
-      //   data: await fetchCsvData(
-      //     appsettings.livesFileName,
-      //     appsettings.liveSkipRowCount
-      //   ),
-      //   sortCol: appsettings.liveEndDateCol,
-      //   sortMode: SORTMODE.ANNIVERSARY.code,
-      //   cardPerPage: appsettings.cardPerPageLive,
-      // },
     };
 
     // 4. カラーセット
@@ -109,7 +89,13 @@ $(document).ready(async function () {
     }
 
     // 開始画面を表示
-    createDisplay(DISPLAY.MV.mode, 1, SORTMODE.ANNIVERSARY.code);
+    createDisplay(
+      DISPLAY.MV.mode,
+      1,
+      SORTMODE.ANNIVERSARY.code,
+      DISPLAY.MV.generations[0],
+      DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1]
+    );
   } catch (error) {
     // エラーハンドリング
     showError('Failed to load data:', error);
@@ -120,7 +106,7 @@ $(document).ready(async function () {
 });
 
 // 画面タグ作成
-function createDisplay(mode, page, sortMode) {
+function createDisplay(mode, page, sortMode, startYear, endYear) {
   // ページング、ソートモード保持
   for (let key in DISPLAY) {
     if (DISPLAY[key].mode === mode) {
@@ -150,6 +136,14 @@ function createDisplay(mode, page, sortMode) {
           display.sortCol,
           SORTMODE.HISTORY.defaultSortOrder
         );
+  //フィルター項目
+  sortedData = sortedData.filter((song) => {
+    // 年フィルター
+    const releaseYear = song[appsettings.MVReleaseDateCol].slice(0, 4);
+    const startYearTemp = startYear < endYear ? startYear : endYear;
+    const endYearTemp = startYear < endYear ? endYear : startYear;
+    return releaseYear >= startYearTemp && releaseYear <= endYearTemp;
+  });
 
   // 表示開始/終了index
   var listStartIndex = display.cardPerPage * (display.page - 1);
@@ -171,17 +165,52 @@ function createDisplay(mode, page, sortMode) {
     globalToday.toLocaleDateString('ja-JP').replace(/\./g, '/') +
     '</p>';
 
+  // フィルター
+  tag += ' <h2 class="h2-display">Filter</h2>';
+
+  tag += ' <div class="year-select-container"> ';
+  tag += ' <div class="year-select"> ';
+  // 開始年
+  tag += `   <select id="startYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, this.value, $('#endYear').val())"> `;
+  display.generations.forEach(function (generation) {
+    let selected =
+      (!startYear && generation === display.generations[0]) ||
+      (startYear && generation === startYear)
+        ? 'selected'
+        : '';
+    tag += `<option value="${generation}" ${selected}>${generation}年</option>`;
+  });
+  tag += '   </select> ';
+  tag += ' </div> ';
+  // 終了年
+  tag += ' <label class="year-select-label">～</label> ';
+  tag += ' <div class="year-select"> ';
+  tag += `   <select id="endYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), this.value)"> `;
+  display.generations.forEach(function (generation) {
+    let selected =
+      (!endYear &&
+        generation === display.generations[display.generations.length - 1]) ||
+      (endYear && generation === endYear)
+        ? 'selected'
+        : '';
+    tag += `<option value="${generation}" ${selected}>${generation}年</option>`;
+  });
+  tag += '   </select> ';
+  tag += ' </div> ';
+  tag += ' </div> ';
+  tag += ' <h2 class="h2-display">Result</h2>';
   // ソート作成
   tag += createSortTag(display);
 
   // ページング作成
-  tag += createPagingTag(display);
+  tag += createPagingTag(display, sortedData);
 
   // タグ作成
   if (display.mode === DISPLAY.MV.mode) {
     //////////////////////////////////////////
     // MV情報
     //////////////////////////////////////////
+
     tag += '     <div class="card-list">';
     sortedData.slice(listStartIndex, listEndIndex).forEach(function (song) {
       // MV日付情報取得
@@ -281,7 +310,7 @@ function createDisplay(mode, page, sortMode) {
   }
 
   // ページング作成
-  tag += createPagingTag(display);
+  tag += createPagingTag(display, sortedData);
 
   // カラーチェンジ
   tag +=
