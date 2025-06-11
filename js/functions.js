@@ -79,7 +79,7 @@ function changeColor(plusCount) {
     background: colorSet[1],
     color: colorSet[2],
   });
-  $('.btn--main').css({
+  $('#clearLabel').css({
     'background-color': colorSet[3],
     color: colorSet[4],
   });

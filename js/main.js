@@ -226,6 +226,15 @@ function createDisplay(
   // ボカロPフィルター作成
   tag += createComposerFilter(display.composers, composer);
 
+  // クリアボタン
+  tag += ' <div class="quiz-mode-container">';
+  tag += `   <input type="button" id="clear" name="quizMode" value="clear" hidden onclick="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code,
+                                                                          DISPLAY.MV.generations[0],DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
+                                                                          DISPLAY.MV.vocaloids[0],DISPLAY.MV.composers[0]);">`;
+  tag +=
+    '   <label id="clearLabel" for="clear" class="quizModeRadio">クリア</label>';
+  tag += ' </div>';
+
   tag += ' <h2 class="h2-display">Result</h2>';
   // ソート作成
   tag += createSortTag(display, sortedData);
@@ -312,9 +321,7 @@ function createDisplay(
     if (sortedData.length !== 0) {
       tag += '<div class="right-text">※敬称略です</div>';
     } else {
-      tag += `<div class="center-text larger-text" onclick="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code,
-                                                                          DISPLAY.MV.generations[0],DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
-                                                                          DISPLAY.MV.vocaloids[0],DISPLAY.MV.composers[0]);">タップでクリア↺</div>`;
+      tag += `<div class="center-text larger-text">※該当の楽曲は作者が見つけられていません<br>( TДT)ｺﾞﾒﾝﾖｰ</div>`;
     }
   }
 
