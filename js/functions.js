@@ -213,7 +213,7 @@ function createYearFilter(generations, startYear, endYear) {
 function createVocaloidFilter(vocaloids, selectedVocaloid) {
   let html = '';
   html += ' <div class="year-select-container"> ';
-  html += ' <label class="year-select-label">歌：</label> ';
+  html += ' <label class="year-select-label">ボーカロイド：</label> ';
   html += ' <div class="year-select"> ';
   html += `   <select id="vocaloid" style="width: 200px !important;"`;
   // onchangeイベントの引数は、実際のcreateDisplay関数の定義に合わせて調整してください。
@@ -238,7 +238,7 @@ function createVocaloidFilter(vocaloids, selectedVocaloid) {
 function createComposerFilter(composers, selectedComposer) {
   let html = '';
   html += ' <div class="year-select-container"> ';
-  html += ' <label class="year-select-label">作曲：</label> ';
+  html += ' <label class="year-select-label">作曲者：</label> ';
   html += ' <div class="year-select"> ';
   html += `   <select id="vocaloP" `;
   // onchangeイベントの引数は、実際のcreateDisplay関数の定義に合わせて調整してください。
