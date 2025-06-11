@@ -321,23 +321,25 @@ function createDisplay(
     if (sortedData.length !== 0) {
       tag += '<div class="right-text">※敬称略です</div>';
     } else {
-      tag += `<div class="center-text larger-text">※該当の楽曲は作者が見つけられていません<br>( TДT)ｺﾞﾒﾝﾖｰ</div>`;
+      tag += `<div class="center-text">見つかりませんでした<br>( TДT)ｺﾞﾒﾝﾈｰ</div>`;
     }
   }
 
   // ページング作成
   tag += createPagingTag(display, sortedData);
 
-  // カラーチェンジ
-  tag +=
-    ' <h2 id="changeColor" class="center-text margin-top-20" style="cursor: pointer;" onclick="changeColor(1)">Color ↺</h2>';
+  // 該当アリの場合にのみ表示
+  if (sortedData.length !== 0) {
+    // カラーチェンジ
+    tag +=
+      ' <h2 id="changeColor" class="center-text margin-top-20" style="cursor: pointer;" onclick="changeColor(1)">Color ↺</h2>';
 
-  // サイト情報
-  tag += ' <footer style="text-align: center; margin-top: 2rem;">';
-  tag +=
-    '   <a href="about.html" target="_blank" rel="noopener noreferrer">サイト情報</a>';
-  tag += ' </footer>';
-
+    // サイト情報
+    tag += ' <footer style="text-align: center; margin-top: 2rem;">';
+    tag +=
+      '   <a href="about.html" target="_blank" rel="noopener noreferrer">サイト情報</a>';
+    tag += ' </footer>';
+  }
   // タグ流し込み
   $('#display').append(tag);
 
