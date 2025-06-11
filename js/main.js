@@ -321,7 +321,7 @@ function createDisplay(
     if (sortedData.length !== 0) {
       tag += '<div class="right-text">※敬称略です</div>';
     } else {
-      tag += `<div class="center-text">見つかりませんでした<br>( TДT)ｺﾞﾒﾝﾈｰ</div>`;
+      tag += `<div class="center-text">あれ、、見つかりませんでした<br>( TДT)ｺﾞﾒﾝﾈｰ</div>`;
     }
   }
 
