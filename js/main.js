@@ -280,6 +280,7 @@ function createDisplay(
       // MV Youtube表示
       tag += createMvTag(
         song[appsettings.mvIdCol],
+        song[appsettings.youtubeMvIdCol],
         song[appsettings.mvSiteCol]
       );
       // ここまでMV Youtube
@@ -301,12 +302,11 @@ function createDisplay(
 
       tag +=
         '<div class="card-url"><a href="' +
-        (song[appsettings.mvSiteCol].startsWith('ニコニコ')
-          ? appsettings.mvUrlBaseNicoNico
-          : appsettings.mvUrlBaseYoutube) +
-        song[appsettings.mvIdCol] +
+        (song[appsettings.mvIdCol] !== appsettings.noDataString
+          ? appsettings.mvUrlBaseNicoNico + song[appsettings.mvIdCol]
+          : appsettings.mvUrlBaseYoutube + song[appsettings.youtubeMvIdCol]) +
         '" target="_blank" rel="noopener noreferrer">' +
-        (song[appsettings.mvSiteCol].startsWith('ニコニコ')
+        (song[appsettings.mvIdCol] !== appsettings.noDataString
           ? 'ニコニコ動画'
           : 'Youtube') +
         'で見る<i class="fas fa-arrow-up-right-from-square"></i></a></div>';

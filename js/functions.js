@@ -382,16 +382,17 @@ function createCardTitleTag(
 }
 
 // Youtubeタグ作成
-function createMvTag(id, mvSite) {
+function createMvTag(id, youtubeId) {
   // 変数初期化
   var tag = '';
 
   // タグ生成
   tag += '<div class="card-iframe-container">';
-  tag += mvSite.startsWith('ニコニコ')
-    ? '     <iframe src="https://embed.nicovideo.jp/watch/' //ニコニコ
-    : '            src="https://www.youtube.com/embed/'; // YouTube
-  tag += id + '?loop=1" frameborder="0" allowfullscreen>';
+  tag +=
+    id !== appsettings.noDataString
+      ? '     <iframe src="https://embed.nicovideo.jp/watch/' + id //ニコニコ
+      : '            src="https://www.youtube.com/embed/' + youtubeId; // YouTube
+  tag += '?loop=1" frameborder="0" allowfullscreen>';
   tag += '   </iframe> ';
   tag += '</div> ';
 

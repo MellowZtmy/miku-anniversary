@@ -365,7 +365,7 @@ h1 {
   align-items: center;
   border: 2px solid;
   border-radius: 50px;
-  max-width: 80%;
+  max-width: 50%;
 }
 /*プルダウンの三角を設定*/
 .year-select::before {
