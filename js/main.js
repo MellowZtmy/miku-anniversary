@@ -119,7 +119,7 @@ $(document).ready(async function () {
     );
   } catch (error) {
     // エラーハンドリング
-    showError('Failed to load data:', error);
+    showError('Failed to ready:', error);
   } finally {
     // 最後にスピナーを非表示
     $('#spinner').hide();
@@ -136,228 +136,234 @@ function createDisplay(
   vocaloid,
   composer
 ) {
-  // ページング、ソートモード保持
-  for (let key in DISPLAY) {
-    if (DISPLAY[key].mode === mode) {
-      DISPLAY[key].page = page;
-      DISPLAY[key].sortMode = sortMode;
-      break;
+  try {
+    // ページング、ソートモード保持
+    for (let key in DISPLAY) {
+      if (DISPLAY[key].mode === mode) {
+        DISPLAY[key].page = page;
+        DISPLAY[key].sortMode = sortMode;
+        break;
+      }
     }
-  }
 
-  // スタイルシートを取得(背景画像設定用)
-  const styleSheet = document.styleSheets[0];
-  var cssRules = [];
+    // スタイルシートを取得(背景画像設定用)
+    const styleSheet = document.styleSheets[0];
+    var cssRules = [];
 
-  // 楽曲を日付順に並び変える
-  var display = Object.values(DISPLAY).find((item) => item.mode === mode);
-  var sortedData =
-    sortMode === SORTMODE.ANNIVERSARY.code
-      ? // 記念日順の場合 今日に近い未来の日付昇順
-        sortByMonthDay(
-          display.data,
-          display.sortCol,
-          SORTMODE.ANNIVERSARY.defaultSortOrder
-        )
-      : // 時系列順の場合 今日に近い未来の日付昇順
-        sortByYearMonthDay(
-          display.data,
-          display.sortCol,
-          SORTMODE.HISTORY.defaultSortOrder
-        );
-  // フィルター項目
-  sortedData = sortedData.filter((song) => {
-    const releaseYear = parseInt(
-      song[appsettings.MVReleaseDateCol].slice(0, 4),
-      10
-    );
+    // 楽曲を日付順に並び変える
+    var display = Object.values(DISPLAY).find((item) => item.mode === mode);
+    var sortedData =
+      sortMode === SORTMODE.ANNIVERSARY.code
+        ? // 記念日順の場合 今日に近い未来の日付昇順
+          sortByMonthDay(
+            display.data,
+            display.sortCol,
+            SORTMODE.ANNIVERSARY.defaultSortOrder
+          )
+        : // 時系列順の場合 今日に近い未来の日付昇順
+          sortByYearMonthDay(
+            display.data,
+            display.sortCol,
+            SORTMODE.HISTORY.defaultSortOrder
+          );
+    // フィルター項目
+    sortedData = sortedData.filter((song) => {
+      const releaseYear = parseInt(
+        song[appsettings.MVReleaseDateCol].slice(0, 4),
+        10
+      );
 
-    // 年フィルターの範囲を正規化
-    const [minYear, maxYear] = [startYear, endYear].sort((a, b) => a - b);
+      // 年フィルターの範囲を正規化
+      const [minYear, maxYear] = [startYear, endYear].sort((a, b) => a - b);
 
-    // 各フィルターの結果を変数に格納
-    const passesVocaloidFilter =
-      vocaloid === 'すべて' ||
-      song[appsettings.vocaloidCol]
-        .split('・')
-        .map((v) => v.trim())
-        .includes(vocaloid);
+      // 各フィルターの結果を変数に格納
+      const passesVocaloidFilter =
+        vocaloid === 'すべて' ||
+        song[appsettings.vocaloidCol]
+          .split('・')
+          .map((v) => v.trim())
+          .includes(vocaloid);
 
-    const passesComposerFilter =
-      composer === 'すべて' ||
-      song[appsettings.composerCol] === composer ||
-      song[appsettings.composerCol].includes(composer);
+      const passesComposerFilter =
+        composer === 'すべて' ||
+        song[appsettings.composerCol] === composer ||
+        song[appsettings.composerCol].includes(composer);
 
-    const passesYearFilter = releaseYear >= minYear && releaseYear <= maxYear;
+      const passesYearFilter = releaseYear >= minYear && releaseYear <= maxYear;
 
-    // すべてのフィルターをAND条件で結合
-    return passesVocaloidFilter && passesComposerFilter && passesYearFilter;
-  });
+      // すべてのフィルターをAND条件で結合
+      return passesVocaloidFilter && passesComposerFilter && passesYearFilter;
+    });
 
-  // 表示開始/終了index
-  var listStartIndex = display.cardPerPage * (display.page - 1);
-  var listEndIndex = listStartIndex + display.cardPerPage;
+    // 表示開始/終了index
+    var listStartIndex = display.cardPerPage * (display.page - 1);
+    var listEndIndex = listStartIndex + display.cardPerPage;
 
-  // タグクリア
-  $('#display').empty();
+    // タグクリア
+    $('#display').empty();
 
-  // 紙吹雪解除
-  $('canvas')?.remove();
+    // 紙吹雪解除
+    $('canvas')?.remove();
 
-  // 変数初期化
-  var tag = '';
-  var leftDaysList = [];
+    // 変数初期化
+    var tag = '';
+    var leftDaysList = [];
 
-  // 今日日付
-  tag +=
-    ' <p class="right-text date-text">TODAY：' +
-    globalToday.toLocaleDateString('ja-JP').replace(/\./g, '/') +
-    '</p>';
+    // 今日日付
+    tag +=
+      ' <p class="right-text date-text">TODAY：' +
+      globalToday.toLocaleDateString('ja-JP').replace(/\./g, '/') +
+      '</p>';
 
-  // フィルター
-  tag += ' <h2 class="h2-display">Filter</h2>';
+    // フィルター
+    tag += ' <h2 class="h2-display">Filter</h2>';
 
-  // 年フィルター作成
-  tag += createYearFilter(display.generations, startYear, endYear);
+    // 年フィルター作成
+    tag += createYearFilter(display.generations, startYear, endYear);
 
-  // ボーカロイドフィルター作成
-  tag += createVocaloidFilter(display.vocaloids, vocaloid);
+    // ボーカロイドフィルター作成
+    tag += createVocaloidFilter(display.vocaloids, vocaloid);
 
-  // ボカロPフィルター作成
-  tag += createComposerFilter(display.composers, composer);
+    // ボカロPフィルター作成
+    tag += createComposerFilter(display.composers, composer);
 
-  // クリアボタン
-  tag += ' <div class="quiz-mode-container">';
-  tag += `   <input type="button" id="clear" name="quizMode" value="clear" hidden onclick="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code,
+    // クリアボタン
+    tag += ' <div class="quiz-mode-container">';
+    tag += `   <input type="button" id="clear" name="quizMode" value="clear" hidden onclick="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code,
                                                                           DISPLAY.MV.generations[0],DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
                                                                           DISPLAY.MV.vocaloids[0],DISPLAY.MV.composers[0]);">`;
-  tag +=
-    '   <label id="clearLabel" for="clear" class="quizModeRadio">クリア</label>';
-  tag += ' </div>';
+    tag +=
+      '   <label id="clearLabel" for="clear" class="quizModeRadio">クリア</label>';
+    tag += ' </div>';
 
-  tag += ' <h2 class="h2-display">Result</h2>';
-  // ソート作成
-  tag += createSortTag(display, sortedData);
+    tag += ' <h2 class="h2-display">Result</h2>';
+    // ソート作成
+    tag += createSortTag(display, sortedData);
 
-  // ページング作成
-  tag += createPagingTag(display, sortedData);
+    // ページング作成
+    tag += createPagingTag(display, sortedData);
 
-  // タグ作成
-  if (display.mode === DISPLAY.MV.mode) {
-    //////////////////////////////////////////
-    // MV情報
-    //////////////////////////////////////////
+    // タグ作成
+    if (display.mode === DISPLAY.MV.mode) {
+      //////////////////////////////////////////
+      // MV情報
+      //////////////////////////////////////////
 
-    tag += '     <div class="card-list">';
-    sortedData.slice(listStartIndex, listEndIndex).forEach(function (song) {
-      // MV日付情報取得
-      const MVReleaseDateStr = song[appsettings.MVReleaseDateCol];
-      const mvLeftDays = getDaysToNextMonthDay(MVReleaseDateStr);
-      leftDaysList.push(mvLeftDays);
+      tag += '     <div class="card-list">';
+      sortedData.slice(listStartIndex, listEndIndex).forEach(function (song) {
+        // MV日付情報取得
+        const MVReleaseDateStr = song[appsettings.MVReleaseDateCol];
+        const mvLeftDays = getDaysToNextMonthDay(MVReleaseDateStr);
+        leftDaysList.push(mvLeftDays);
 
-      // アルバム画像名取得
-      var imageName =
-        song[appsettings.minialbumCol] !== appsettings.noDataString
-          ? song[appsettings.minialbumCol]
-          : song[appsettings.albumCol] !== appsettings.noDataString
-          ? song[appsettings.albumCol]
-          : appsettings.liveImageDefault;
+        // アルバム画像名取得
+        var imageName =
+          song[appsettings.minialbumCol] !== appsettings.noDataString
+            ? song[appsettings.minialbumCol]
+            : song[appsettings.albumCol] !== appsettings.noDataString
+            ? song[appsettings.albumCol]
+            : appsettings.liveImageDefault;
 
-      // 背景画像設定(ミニアルバム優先,すでにあるものは追加しない)
-      cssRules = addCssRule(imageName, cssRules, appsettings.albumImagePath);
+        // 背景画像設定(ミニアルバム優先,すでにあるものは追加しない)
+        cssRules = addCssRule(imageName, cssRules, appsettings.albumImagePath);
 
-      // カード生成
-      tag += '      <div class="card-item ' + imageName + '">';
+        // カード生成
+        tag += '      <div class="card-item ' + imageName + '">';
 
-      tag += createCardTitleTag(
-        mvLeftDays,
-        MVReleaseDateStr,
-        song[appsettings.songNameCol],
-        display.sortMode,
-        '公開'
-      );
+        tag += createCardTitleTag(
+          mvLeftDays,
+          MVReleaseDateStr,
+          song[appsettings.songNameCol],
+          display.sortMode,
+          '公開'
+        );
 
-      // MV Youtube表示
-      tag += createMvTag(
-        song[appsettings.mvIdCol],
-        song[appsettings.youtubeMvIdCol],
-        song[appsettings.mvSiteCol]
-      );
-      // ここまでMV Youtube
+        // MV Youtube表示
+        tag += createMvTag(
+          song[appsettings.mvIdCol],
+          song[appsettings.youtubeMvIdCol],
+          song[appsettings.mvSiteCol]
+        );
+        // ここまでMV Youtube
 
-      // MV 情報
-      tag +=
-        '<div class="card-info-container">' +
-        '<div class="card-info">作詞：' +
-        song[appsettings.writerCol] +
-        '<br>作曲：' +
-        song[appsettings.composerCol] +
-        '<br>編曲：' +
-        song[appsettings.arrangerCol] +
-        '<br>歌：' +
-        song[appsettings.vocaloidCol] +
-        '</div>';
+        // MV 情報
+        tag +=
+          '<div class="card-info-container">' +
+          '<div class="card-info">作詞：' +
+          song[appsettings.writerCol] +
+          '<br>作曲：' +
+          song[appsettings.composerCol] +
+          '<br>編曲：' +
+          song[appsettings.arrangerCol] +
+          '<br>歌：' +
+          song[appsettings.vocaloidCol] +
+          '</div>';
 
-      tag += '        </div>'; //card-info-container
+        tag += '        </div>'; //card-info-container
 
-      tag +=
-        '<div class="card-url"><a href="' +
-        (song[appsettings.mvIdCol] !== appsettings.noDataString
-          ? appsettings.mvUrlBaseNicoNico + song[appsettings.mvIdCol]
-          : appsettings.mvUrlBaseYoutube + song[appsettings.youtubeMvIdCol]) +
-        '" target="_blank" rel="noopener noreferrer">' +
-        (song[appsettings.mvIdCol] !== appsettings.noDataString
-          ? 'ニコニコ動画'
-          : 'Youtube') +
-        'で見る<i class="fas fa-arrow-up-right-from-square"></i></a></div>';
+        tag +=
+          '<div class="card-url"><a href="' +
+          (song[appsettings.mvIdCol] !== appsettings.noDataString
+            ? appsettings.mvUrlBaseNicoNico + song[appsettings.mvIdCol]
+            : appsettings.mvUrlBaseYoutube + song[appsettings.youtubeMvIdCol]) +
+          '" target="_blank" rel="noopener noreferrer">' +
+          (song[appsettings.mvIdCol] !== appsettings.noDataString
+            ? 'ニコニコ動画'
+            : 'Youtube') +
+          'で見る<i class="fas fa-arrow-up-right-from-square"></i></a></div>';
 
-      // MV公開年月日
-      tag += '           <div class="card-date">' + MVReleaseDateStr + '</div>';
+        // MV公開年月日
+        tag +=
+          '           <div class="card-date">' + MVReleaseDateStr + '</div>';
 
-      tag += '        </div>'; //card-item
-    });
-    tag += '         </div>'; //card-list
-    // 敬称略 or 該当なし
-    if (sortedData.length !== 0) {
-      tag += '<div class="right-text">※敬称略です</div>';
-    } else {
-      tag += `<div class="center-text">あれ、、見つかりませんでした<br>( TДT)ｺﾞﾒﾝﾈｰ</div>`;
+        tag += '        </div>'; //card-item
+      });
+      tag += '         </div>'; //card-list
+      // 敬称略 or 該当なし
+      if (sortedData.length !== 0) {
+        tag += '<div class="right-text">※敬称略です</div>';
+      } else {
+        tag += `<div class="center-text">あれ、、見つかりませんでした<br>( TДT)ｺﾞﾒﾝﾈｰ</div>`;
+      }
     }
+
+    // ページング作成
+    tag += createPagingTag(display, sortedData);
+
+    // 該当アリの場合にのみ表示
+    if (sortedData.length !== 0) {
+      // カラーチェンジ
+      tag +=
+        ' <h2 id="changeColor" class="center-text margin-top-20" style="cursor: pointer;" onclick="changeColor(1)">Color ↺</h2>';
+
+      // サイト情報
+      tag += ' <footer style="text-align: center; margin-top: 2rem;">';
+      tag +=
+        '   <a href="about.html" target="_blank" rel="noopener noreferrer">サイト情報</a>';
+      tag += ' </footer>';
+    }
+    // タグ流し込み
+    $('#display').append(tag);
+
+    // 紙吹雪
+    if (isMikuBirthday) {
+      // 6月4日限定の紙吹雪
+      $('#confetti').prepend('<canvas id="canvas"></canvas>');
+      dispConfettifor0604();
+    }
+
+    // CSS適用
+    changeColor(0);
+
+    // TODO 背景画像のcss設定
+    // cssRules.forEach((rule) =>
+    //   styleSheet.insertRule(rule, styleSheet.cssRules.length)
+    // );
+
+    // 画像拡大設定
+    addEnlargeImageEvent();
+  } catch (error) {
+    // エラーハンドリング
+    showError('Failed to createDisplay:', error);
   }
-
-  // ページング作成
-  tag += createPagingTag(display, sortedData);
-
-  // 該当アリの場合にのみ表示
-  if (sortedData.length !== 0) {
-    // カラーチェンジ
-    tag +=
-      ' <h2 id="changeColor" class="center-text margin-top-20" style="cursor: pointer;" onclick="changeColor(1)">Color ↺</h2>';
-
-    // サイト情報
-    tag += ' <footer style="text-align: center; margin-top: 2rem;">';
-    tag +=
-      '   <a href="about.html" target="_blank" rel="noopener noreferrer">サイト情報</a>';
-    tag += ' </footer>';
-  }
-  // タグ流し込み
-  $('#display').append(tag);
-
-  // 紙吹雪
-  if (isMikuBirthday) {
-    // 6月4日限定の紙吹雪
-    $('#confetti').prepend('<canvas id="canvas"></canvas>');
-    dispConfettifor0604();
-  }
-
-  // CSS適用
-  changeColor(0);
-
-  // TODO 背景画像のcss設定
-  // cssRules.forEach((rule) =>
-  //   styleSheet.insertRule(rule, styleSheet.cssRules.length)
-  // );
-
-  // 画像拡大設定
-  addEnlargeImageEvent();
 }
