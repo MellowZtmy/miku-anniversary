@@ -134,27 +134,12 @@ function getDaysFromDate(dateString) {
   return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 }
 
-// 二次元配列を年月日でソート(0梅でなくても対応)
-function sortByYearMonthDay(data, sortColIndex, sortOrder = true) {
+// 二次元配列を年月日でソート
+function sortByYearMonthDay(data, sortColIndex, sortOrder) {
   return data.sort((a, b) => {
-    const parseDate = (str) => {
-      try {
-        const parts = str.trim().split('/').map(Number);
-        if (parts.length !== 3) throw new Error(`Invalid date format: ${str}`);
-        const [y, m, d] = parts;
-        const date = new Date(y, m - 1, d);
-        if (isNaN(date.getTime())) throw new Error(`Invalid date: ${str}`);
-        return date;
-      } catch (e) {
-        console.warn(e.message);
-        return new Date(0); // エラー時は最小日付で代用（ソートの影響を軽減）
-      }
-    };
-
-    const dateA = parseDate(a[sortColIndex]);
-    const dateB = parseDate(b[sortColIndex]);
-
-    return sortOrder ? dateA - dateB : dateB - dateA;
+    const dateA = new Date(a[sortColIndex]);
+    const dateB = new Date(b[sortColIndex]);
+    return sortOrder ? dateA - dateB : dateB - dateA; // 昇順：降順
   });
 }
 
