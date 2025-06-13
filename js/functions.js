@@ -79,6 +79,9 @@ function changeColor(plusCount) {
     background: colorSet[1],
     color: colorSet[2],
   });
+  $('.textbox-2').css({
+    'border-color': colorSet[2],
+  });
   $('#clearLabel').css({
     'background-color': colorSet[3],
     color: colorSet[4],
