@@ -184,14 +184,14 @@ function createYearFilter(generations, startYear, endYear) {
   const startSelect = `
     <select id="startYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${
     SORTMODE.ANNIVERSARY.code
-  }, this.value, $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">
+  }, this.value, $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val(), $('#songName').val())">
       ${createOptions(generations, startYear, true)}
     </select>`;
 
   const endSelect = `
     <select id="endYear" onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${
     SORTMODE.ANNIVERSARY.code
-  }, $('#startYear').val(), this.value, $('#vocaloid').val(), $('#vocaloP').val())">
+  }, $('#startYear').val(), this.value, $('#vocaloid').val(), $('#vocaloP').val(), $('#songName').val())">
       ${createOptions(generations, endYear, false)}
     </select>`;
 
@@ -216,8 +216,7 @@ function createVocaloidFilter(vocaloids, selectedVocaloid) {
   html += ' <label class="year-select-label">ボーカロイド：</label> ';
   html += ' <div class="year-select"> ';
   html += `   <select id="vocaloid" style="width: 200px !important;"`;
-  // onchangeイベントの引数は、実際のcreateDisplay関数の定義に合わせて調整してください。
-  html += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), this.value, $('#vocaloP').val())"> `;
+  html += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), this.value, $('#vocaloP').val(), $('#songName').val())"> `;
   vocaloids.forEach(function (eachVocaloid) {
     const selected =
       selectedVocaloid && eachVocaloid === selectedVocaloid ? 'selected' : '';
@@ -241,8 +240,7 @@ function createComposerFilter(composers, selectedComposer) {
   html += ' <label class="year-select-label">作曲者：</label> ';
   html += ' <div class="year-select"> ';
   html += `   <select id="vocaloP" `;
-  // onchangeイベントの引数は、実際のcreateDisplay関数の定義に合わせて調整してください。
-  html += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), this.value)"> `;
+  html += `   onchange="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), this.value, $('#songName').val())"> `;
   composers.forEach(function (eachComposer) {
     const selected =
       selectedComposer && eachComposer === selectedComposer ? 'selected' : '';
@@ -253,6 +251,20 @@ function createComposerFilter(composers, selectedComposer) {
   html += ' </div> ';
   return html;
 }
+
+/**
+ * 曲名フィルターのHTMLを生成します。
+ */
+function createSongNameFilter(songName) {
+  let html = '';
+  html += ' <div class="year-select-container"> ';
+  html += '   <label class="year-select-label">曲名：</label> ';
+  html += `   <input id="songName" type="text" class="textbox-2" value="${songName}" placeholder="あいまいでもｲｲﾖｰ"`;
+  html += `   onblur="createDisplay(${DISPLAY.MV.mode}, 1, ${SORTMODE.ANNIVERSARY.code}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val(), this.value)"/> `;
+  html += ' </div> ';
+  return html;
+}
+
 // ソートタグ作成
 function createSortTag(display, sortedData) {
   //データなしの場合何もしない
@@ -274,7 +286,7 @@ function createSortTag(display, sortedData) {
       display.mode +
       ',1,' +
       sortMode.code +
-      `, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">` +
+      `, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val(), $('#songName').val())">` +
       sortMode.name +
       '</a>';
   });
@@ -300,7 +312,7 @@ function createPagingTag(display, sortedData) {
 
   // 「≪」最初のページへ
   if (currentPage > 1) {
-    tag += `<a class="active" onclick="createDisplay(${display.mode}, 1, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">≪</a>`;
+    tag += `<a class="active" onclick="createDisplay(${display.mode}, 1, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val(), $('#songName').val())">≪</a>`;
   } else {
     tag += `<a class="disabled">≪</a>`;
   }
@@ -317,12 +329,12 @@ function createPagingTag(display, sortedData) {
   for (let pageIndex = startPage; pageIndex <= endPage; pageIndex++) {
     tag +=
       `<a class="${currentPage === pageIndex ? 'disabled' : 'active'}" ` +
-      `onclick="createDisplay(${display.mode}, ${pageIndex}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">${pageIndex}</a>`;
+      `onclick="createDisplay(${display.mode}, ${pageIndex}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val(), $('#songName').val())">${pageIndex}</a>`;
   }
 
   // 「≫」最後のページへ
   if (currentPage < totalPages) {
-    tag += `<a class="active" onclick="createDisplay(${display.mode}, ${totalPages}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val())">≫</a>`;
+    tag += `<a class="active" onclick="createDisplay(${display.mode}, ${totalPages}, ${display.sortMode}, $('#startYear').val(), $('#endYear').val(), $('#vocaloid').val(), $('#vocaloP').val(), $('#songName').val())">≫</a>`;
   } else {
     tag += `<a class="disabled">≫</a>`;
   }

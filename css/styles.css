@@ -427,3 +427,25 @@ h1 {
 .quizModeRadio:hover {
   background-color: #f7f7f7;
 }
+
+/* テキストボックス用 */
+.textbox-2 {
+  width: 100%;
+  padding: 8px 10px;
+  color: #333;
+  font-size: 1em;
+  line-height: 1.5;
+  max-width: 200px;
+  align-items: center;
+  border: 2px solid;
+  border-radius: 50px;
+  max-width: 200px;
+  /* 標準のスタイルを無効にする */
+  background: transparent;
+  appearance: none;
+  outline: none;
+}
+
+.textbox-2::placeholder {
+  color: #999;
+}

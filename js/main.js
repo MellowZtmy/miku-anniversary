@@ -115,7 +115,8 @@ $(document).ready(async function () {
       DISPLAY.MV.generations[0],
       DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
       DISPLAY.MV.vocaloids[0],
-      DISPLAY.MV.composers[0]
+      DISPLAY.MV.composers[0],
+      ''
     );
   } catch (error) {
     // エラーハンドリング
@@ -134,7 +135,8 @@ function createDisplay(
   startYear,
   endYear,
   vocaloid,
-  composer
+  composer,
+  songName
 ) {
   try {
     // ページング、ソートモード保持
@@ -173,10 +175,11 @@ function createDisplay(
         10
       );
 
-      // 年フィルターの範囲を正規化
+      // 年フィルター
       const [minYear, maxYear] = [startYear, endYear].sort((a, b) => a - b);
+      const passesYearFilter = releaseYear >= minYear && releaseYear <= maxYear;
 
-      // 各フィルターの結果を変数に格納
+      // ボーカロイドフィルター
       const passesVocaloidFilter =
         vocaloid === 'すべて' ||
         song[appsettings.vocaloidCol]
@@ -184,15 +187,26 @@ function createDisplay(
           .map((v) => v.trim())
           .includes(vocaloid);
 
+      // ボカロPフィルター
       const passesComposerFilter =
         composer === 'すべて' ||
         song[appsettings.composerCol] === composer ||
         song[appsettings.composerCol].includes(composer);
 
-      const passesYearFilter = releaseYear >= minYear && releaseYear <= maxYear;
+      // 曲名フィルター(大文字小文字区別なし)
+      const passesSongNameFilter =
+        songName === '' ||
+        song[appsettings.songNameCol]
+          .toLowerCase()
+          .includes(songName.toLowerCase());
 
       // すべてのフィルターをAND条件で結合
-      return passesVocaloidFilter && passesComposerFilter && passesYearFilter;
+      return (
+        passesVocaloidFilter &&
+        passesComposerFilter &&
+        passesYearFilter &&
+        passesSongNameFilter
+      );
     });
 
     // 表示開始/終了index
@@ -227,11 +241,14 @@ function createDisplay(
     // ボカロPフィルター作成
     tag += createComposerFilter(display.composers, composer);
 
+    // 曲名フィルター作成
+    tag += createSongNameFilter(songName);
+
     // クリアボタン
     tag += ' <div class="quiz-mode-container">';
     tag += `   <input type="button" id="clear" name="quizMode" value="clear" hidden onclick="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code,
                                                                           DISPLAY.MV.generations[0],DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
-                                                                          DISPLAY.MV.vocaloids[0],DISPLAY.MV.composers[0]);">`;
+                                                                          DISPLAY.MV.vocaloids[0],DISPLAY.MV.composers[0],'');">`;
     tag +=
       '   <label id="clearLabel" for="clear" class="quizModeRadio">クリア</label>';
     tag += ' </div>';
