@@ -28,6 +28,64 @@
       <h1 id="header" class="center-text" onclick="location.reload(true) ">
         みっくみくな <br />ANNIVERSARY
       </h1>
+      <p id="today" class="right-text date-text"></p>
+      <h2 class="h2-display">Filter</h2>
+      <div class="year-select-container">
+        <div class="year-select">
+          <select
+            id="startYear"
+            onchange="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
+          ></select>
+        </div>
+        <label class="year-select-label">～</label>
+        <div class="year-select">
+          <select
+            id="endYear"
+            onchange="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
+          ></select>
+        </div>
+      </div>
+      <div class="year-select-container">
+        <label class="year-select-label">ボーカロイド：</label>
+        <div class="year-select">
+          <select
+            id="vocaloid"
+            style="width: 200px !important"
+            onchange="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
+          ></select>
+        </div>
+      </div>
+      <div class="year-select-container">
+        <label class="year-select-label">作曲者：</label>
+        <div class="year-select">
+          <select
+            id="vocaloP"
+            onchange="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
+          ></select>
+        </div>
+      </div>
+      <div class="year-select-container">
+        <label class="year-select-label">曲名：</label>
+        <input
+          id="songName"
+          type="text"
+          class="textbox-2"
+          value=""
+          placeholder="あいまいでもｲｲﾖｰ"
+          onblur="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
+        />
+      </div>
+      <div class="quiz-mode-container">
+        <input
+          type="button"
+          id="clear"
+          name="quizMode"
+          value="clear"
+          hidden=""
+          onclick="initDisplay()"
+        />
+        <label id="clearLabel" for="clear" class="quizModeRadio">クリア</label>
+      </div>
       <div class="margin-bottom-100" id="display"></div>
     </div>
     <!-- オーバーレイと拡大画像表示用の要素 -->

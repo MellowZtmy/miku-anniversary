@@ -107,17 +107,8 @@ $(document).ready(async function () {
       setLocal('colorIndex', 0);
     }
 
-    // 開始画面を表示
-    createDisplay(
-      DISPLAY.MV.mode,
-      1,
-      SORTMODE.ANNIVERSARY.code,
-      DISPLAY.MV.generations[0],
-      DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
-      DISPLAY.MV.vocaloids[0],
-      DISPLAY.MV.composers[0],
-      ''
-    );
+    // 5. 初期表示
+    initDisplay();
   } catch (error) {
     // エラーハンドリング
     showError('Failed to ready:', error);
@@ -127,17 +118,44 @@ $(document).ready(async function () {
   }
 });
 
+function initDisplay() {
+  // 今日日付
+  $('#today').html(
+    'Today: ' + globalToday.toLocaleDateString('ja-JP').replace(/\./g, '/')
+  );
+
+  // 年フィルターの初期化
+  $('#startYear').empty();
+  $('#endYear').empty();
+  DISPLAY.MV.generations.forEach((year) => {
+    $('#startYear').append(`<option value="${year}">${year}年</option>`);
+    $('#endYear').append(`<option value="${year}">${year}年</option>`);
+  });
+  $('#startYear').val(DISPLAY.MV.generations[0]); // 最初の年を選択
+  $('#endYear').val(DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1]); // 最後の年を選択
+
+  // ボーカロイドフィルター初期化
+  $('#vocaloid').empty();
+  DISPLAY.MV.vocaloids.forEach((eachVocaloid) => {
+    $('#vocaloid').append(
+      `<option value="${eachVocaloid}">${eachVocaloid}</option>`
+    );
+  });
+  $('#vocaloid').val(DISPLAY.MV.vocaloids[0]); // 最初のボーカロイドを選択
+
+  // ボカロPフィルター作成
+  $('#vocaloP').empty();
+  DISPLAY.MV.composers.forEach((composer) => {
+    $('#vocaloP').append(`<option value="${composer}">${composer}</option>`);
+  });
+  $('#vocaloP').val(DISPLAY.MV.composers[0]); // 最初のボカロPを選択
+
+  // 検索結果画面を表示
+  createDisplay(DISPLAY.MV.mode, 1, SORTMODE.ANNIVERSARY.code);
+}
+
 // 画面タグ作成
-function createDisplay(
-  mode,
-  page,
-  sortMode,
-  startYear,
-  endYear,
-  vocaloid,
-  composer,
-  songName
-) {
+function createDisplay(mode, page, sortMode) {
   try {
     // ページング、ソートモード保持
     for (let key in DISPLAY) {
@@ -147,6 +165,12 @@ function createDisplay(
         break;
       }
     }
+    // フィルター項目取得
+    const startYear = $('#startYear').val();
+    const endYear = $('#endYear').val();
+    const vocaloid = $('#vocaloid').val();
+    const composer = $('#vocaloP').val();
+    const songName = $('#songName').val().trim();
 
     // スタイルシートを取得(背景画像設定用)
     const styleSheet = document.styleSheets[0];
@@ -222,36 +246,6 @@ function createDisplay(
     // 変数初期化
     var tag = '';
     var leftDaysList = [];
-
-    // 今日日付
-    tag +=
-      ' <p class="right-text date-text">TODAY：' +
-      globalToday.toLocaleDateString('ja-JP').replace(/\./g, '/') +
-      '</p>';
-
-    // フィルター
-    tag += ' <h2 class="h2-display">Filter</h2>';
-
-    // 年フィルター作成
-    tag += createYearFilter(display.generations, startYear, endYear);
-
-    // ボーカロイドフィルター作成
-    tag += createVocaloidFilter(display.vocaloids, vocaloid);
-
-    // ボカロPフィルター作成
-    tag += createComposerFilter(display.composers, composer);
-
-    // 曲名フィルター作成
-    tag += createSongNameFilter(songName);
-
-    // クリアボタン
-    tag += ' <div class="quiz-mode-container">';
-    tag += `   <input type="button" id="clear" name="quizMode" value="clear" hidden onclick="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code,
-                                                                          DISPLAY.MV.generations[0],DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1],
-                                                                          DISPLAY.MV.vocaloids[0],DISPLAY.MV.composers[0],'');">`;
-    tag +=
-      '   <label id="clearLabel" for="clear" class="quizModeRadio">クリア</label>';
-    tag += ' </div>';
 
     tag += ' <h2 class="h2-display">Result</h2>';
     // ソート作成
