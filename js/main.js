@@ -304,9 +304,11 @@ function createDisplay(
         // ここまでMV Youtube
 
         //  キャッチフレーズ
-        tag += '<div class="card-catchphrase-band">―';
-        tag += song[appsettings.catchPhraseCol] ?? '';
-        tag += '</div>';
+        if (song[appsettings.catchPhraseCol]) {
+          tag += '<div class="card-catchphrase-band">―';
+          tag += song[appsettings.catchPhraseCol];
+          tag += '</div>';
+        }
 
         // MV 情報
         tag +=
