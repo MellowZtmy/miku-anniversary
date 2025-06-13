@@ -405,7 +405,7 @@ h1 {
 .quiz-mode-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: right;
+  justify-content: center;
   gap: 20px;
   margin: 20px 0;
 }
