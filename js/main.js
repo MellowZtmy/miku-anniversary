@@ -224,12 +224,12 @@ function createDisplay(
         song[appsettings.composerCol] === composer ||
         song[appsettings.composerCol].includes(composer);
 
-      // 曲名フィルター(大文字小文字区別なし)
+      // 曲名フィルター（ひらがな・カタカナ・大文字小文字・半角全角を区別しない）
       const passesSongNameFilter =
         songName === '' ||
-        song[appsettings.songNameCol]
-          .toLowerCase()
-          .includes(songName.toLowerCase());
+        normalizeText(song[appsettings.songNameCol]).includes(
+          normalizeText(songName)
+        );
 
       // すべてのフィルターをAND条件で結合
       return (

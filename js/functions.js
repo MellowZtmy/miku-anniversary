@@ -372,3 +372,16 @@ function addCssRule(selector, cssRules, imagePath) {
 
   return cssRules;
 }
+
+//あいまい検索用
+function normalizeText(str) {
+  return str
+    .toLowerCase() // 小文字化
+    .normalize('NFKC') // 全角→半角変換（例：Ａ→A、１→1）
+    .replace(
+      /[ァ-ン]/g,
+      (
+        s // カタカナ→ひらがな
+      ) => String.fromCharCode(s.charCodeAt(0) - 0x60)
+    );
+}
