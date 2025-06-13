@@ -303,7 +303,7 @@ function createMvTag(id, youtubeId) {
   tag +=
     id !== appsettings.noDataString
       ? '     <iframe src="https://embed.nicovideo.jp/watch/' + id //ニコニコ
-      : '            src="https://www.youtube.com/embed/' + youtubeId; // YouTube
+      : '     <iframe src="https://www.youtube.com/embed/' + youtubeId; // YouTube
   tag += '?loop=1" frameborder="0" allowfullscreen>';
   tag += '   </iframe> ';
   tag += '</div> ';
