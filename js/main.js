@@ -286,9 +286,9 @@ function createDisplay(
         );
         // ここまでMV Youtube
 
-        // ひとこと
+        //  キャッチフレーズ
         tag += '<div class="card-catchphrase-band">―';
-        tag += 'サンプルひとこと';
+        tag += song[appsettings.catchPhraseCol] ?? '';
         tag += '</div>';
 
         // MV 情報
