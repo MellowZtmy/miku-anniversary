@@ -286,6 +286,11 @@ function createDisplay(
         );
         // ここまでMV Youtube
 
+        // ひとこと
+        tag += '<div class="card-catchphrase-band">―';
+        tag += 'サンプルひとこと';
+        tag += '</div>';
+
         // MV 情報
         tag +=
           '<div class="card-info-container">' +

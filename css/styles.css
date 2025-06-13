@@ -88,6 +88,15 @@ h1 {
   position: relative; /* 擬似要素を配置するために必要 */
   overflow: hidden; /* 内容がカードの枠を超えないように */
 }
+.card-catchphrase-band {
+  color: rgba(50, 50, 50, 0.5); /* 薄めのグレー系 */
+  font-size: 0.85rem;
+  text-align: right;
+  font-family: 'Segoe UI', 'Noto Sans JP', sans-serif;
+  margin-top: 8px;
+  font-style: italic;
+  font-weight: 400;
+}
 
 /* 背景画像用設定 */
 .card-item::before {
