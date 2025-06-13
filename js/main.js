@@ -125,29 +125,31 @@ function initDisplay() {
   );
 
   // 年フィルターの初期化
-  $('#startYear').empty();
-  $('#endYear').empty();
+  let startYearOptions = '';
+  let endYearOptions = '';
   DISPLAY.MV.generations.forEach((year) => {
-    $('#startYear').append(`<option value="${year}">${year}年</option>`);
-    $('#endYear').append(`<option value="${year}">${year}年</option>`);
+    startYearOptions += `<option value="${year}">${year}年</option>`;
+    endYearOptions += `<option value="${year}">${year}年</option>`;
   });
+  $('#startYear').html(startYearOptions);
+  $('#endYear').html(endYearOptions);
   $('#startYear').val(DISPLAY.MV.generations[0]); // 最初の年を選択
   $('#endYear').val(DISPLAY.MV.generations[DISPLAY.MV.generations.length - 1]); // 最後の年を選択
 
   // ボーカロイドフィルター初期化
-  $('#vocaloid').empty();
+  let vocaloidOptions = '';
   DISPLAY.MV.vocaloids.forEach((eachVocaloid) => {
-    $('#vocaloid').append(
-      `<option value="${eachVocaloid}">${eachVocaloid}</option>`
-    );
+    vocaloidOptions += `<option value="${eachVocaloid}">${eachVocaloid}</option>`;
   });
+  $('#vocaloid').html(vocaloidOptions);
   $('#vocaloid').val(DISPLAY.MV.vocaloids[0]); // 最初のボーカロイドを選択
 
   // ボカロPフィルター作成
-  $('#vocaloP').empty();
+  let vocaloPOptions = '';
   DISPLAY.MV.composers.forEach((composer) => {
-    $('#vocaloP').append(`<option value="${composer}">${composer}</option>`);
+    vocaloPOptions += `<option value="${composer}">${composer}</option>`;
   });
+  $('#vocaloP').html(vocaloPOptions);
   $('#vocaloP').val(DISPLAY.MV.composers[0]); // 最初のボカロPを選択
 
   // 曲名初期化
@@ -200,6 +202,7 @@ function createDisplay(
             SORTMODE.HISTORY.defaultSortOrder
           );
     // フィルター項目
+    const normalizedSongName = normalizeText(songName); // ループ外で一度だけ
     sortedData = sortedData.filter((song) => {
       const releaseYear = parseInt(
         song[appsettings.MVReleaseDateCol].slice(0, 4),
@@ -211,27 +214,26 @@ function createDisplay(
       const passesYearFilter = releaseYear >= minYear && releaseYear <= maxYear;
 
       // ボーカロイドフィルター
+      const songVocaloids = song[appsettings.vocaloidCol]
+        .split('・')
+        .map((v) => v.trim());
       const passesVocaloidFilter =
-        vocaloid === 'すべて' ||
-        song[appsettings.vocaloidCol]
-          .split('・')
-          .map((v) => v.trim())
-          .includes(vocaloid);
+        vocaloid === 'すべて' || songVocaloids.includes(vocaloid);
 
       // ボカロPフィルター
+      const composerValue = song[appsettings.composerCol];
       const passesComposerFilter =
         composer === 'すべて' ||
-        song[appsettings.composerCol] === composer ||
-        song[appsettings.composerCol].includes(composer);
+        composerValue === composer ||
+        composerValue.includes(composer);
 
-      // 曲名フィルター（ひらがな・カタカナ・大文字小文字・半角全角を区別しない）
+      // 曲名フィルター
       const passesSongNameFilter =
         songName === '' ||
         normalizeText(song[appsettings.songNameCol]).includes(
-          normalizeText(songName)
+          normalizedSongName
         );
 
-      // すべてのフィルターをAND条件で結合
       return (
         passesVocaloidFilter &&
         passesComposerFilter &&

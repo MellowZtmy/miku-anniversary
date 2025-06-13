@@ -139,34 +139,30 @@ function getDaysFromDate(dateString) {
 
 // 二次元配列を年月日でソート
 function sortByYearMonthDay(data, sortColIndex, sortOrder) {
-  return data.sort((a, b) => {
-    const dateA = new Date(a[sortColIndex]);
-    const dateB = new Date(b[sortColIndex]);
-    return sortOrder ? dateA - dateB : dateB - dateA; // 昇順：降順
-  });
+  // 比較用の値を一度だけ計算
+  const arrWithDate = data.map((row) => ({
+    row,
+    date: new Date(row[sortColIndex]),
+  }));
+  arrWithDate.sort((a, b) => (sortOrder ? a.date - b.date : b.date - a.date));
+  return arrWithDate.map((obj) => obj.row);
 }
 
-// 二次元配列を月日でソート
 function sortByMonthDay(arr, sortColIndex, sortOrder) {
   const today = new Date(globalToday.setHours(0, 0, 0, 0));
-
   function daysToToday(dateString) {
     const [, month, day] = dateString.split('/').map(Number);
     const date = new Date(today.getFullYear(), month - 1, day);
     if (date < today) date.setFullYear(today.getFullYear() + 1);
     return (date - today) / (1000 * 60 * 60 * 24);
   }
-
-  // 配列のコピーを作成
-  const arrCopy = [...arr];
-
-  // コピーをソート
-  return arrCopy.sort(
-    (a, b) =>
-      sortOrder
-        ? daysToToday(a[sortColIndex]) - daysToToday(b[sortColIndex]) // 昇順
-        : daysToToday(b[sortColIndex]) - daysToToday(a[sortColIndex]) // 降順
-  );
+  // 比較用の値を一度だけ計算
+  const arrWithDays = arr.map((row) => ({
+    row,
+    days: daysToToday(row[sortColIndex]),
+  }));
+  arrWithDays.sort((a, b) => (sortOrder ? a.days - b.days : b.days - a.days));
+  return arrWithDays.map((obj) => obj.row);
 }
 
 // ソートタグ作成
