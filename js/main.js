@@ -150,12 +150,19 @@ function initDisplay() {
   });
   $('#vocaloP').val(DISPLAY.MV.composers[0]); // 最初のボカロPを選択
 
+  // 曲名初期化
+  $('#songName').val(''); // 曲名フィルターを空に
+
   // 検索結果画面を表示
-  createDisplay(DISPLAY.MV.mode, 1, SORTMODE.ANNIVERSARY.code);
+  createDisplay();
 }
 
 // 画面タグ作成
-function createDisplay(mode, page, sortMode) {
+function createDisplay(
+  mode = DISPLAY.MV.mode,
+  page = 1,
+  sortMode = SORTMODE.ANNIVERSARY.code
+) {
   try {
     // ページング、ソートモード保持
     for (let key in DISPLAY) {

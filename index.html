@@ -32,17 +32,11 @@
       <h2 class="h2-display">Filter</h2>
       <div class="year-select-container">
         <div class="year-select">
-          <select
-            id="startYear"
-            onchange="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
-          ></select>
+          <select id="startYear" onchange="createDisplay()"></select>
         </div>
         <label class="year-select-label">～</label>
         <div class="year-select">
-          <select
-            id="endYear"
-            onchange="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
-          ></select>
+          <select id="endYear" onchange="createDisplay()"></select>
         </div>
       </div>
       <div class="year-select-container">
@@ -51,17 +45,14 @@
           <select
             id="vocaloid"
             style="width: 200px !important"
-            onchange="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
+            onchange="createDisplay()"
           ></select>
         </div>
       </div>
       <div class="year-select-container">
         <label class="year-select-label">作曲者：</label>
         <div class="year-select">
-          <select
-            id="vocaloP"
-            onchange="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
-          ></select>
+          <select id="vocaloP" onchange="createDisplay()"></select>
         </div>
       </div>
       <div class="year-select-container">
@@ -72,7 +63,7 @@
           class="textbox-2"
           value=""
           placeholder="あいまいでもｲｲﾖｰ"
-          onblur="createDisplay(DISPLAY.MV.mode,1,SORTMODE.ANNIVERSARY.code)"
+          onblur="createDisplay()"
         />
       </div>
       <div class="quiz-mode-container">
