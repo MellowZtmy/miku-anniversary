@@ -276,19 +276,25 @@ function createDisplay(
         const mvLeftDays = getDaysToNextMonthDay(MVReleaseDateStr);
         leftDaysList.push(mvLeftDays);
 
-        // アルバム画像名取得
-        var imageName =
-          song[appsettings.minialbumCol] !== appsettings.noDataString
-            ? song[appsettings.minialbumCol]
-            : song[appsettings.albumCol] !== appsettings.noDataString
-            ? song[appsettings.albumCol]
-            : appsettings.liveImageDefault;
+        // サムネイル画像のURLを取得
+        const thumbnailUrl = getThumbnailUrl(song);
 
-        // 背景画像設定(ミニアルバム優先,すでにあるものは追加しない)
-        cssRules = addCssRule(imageName, cssRules, appsettings.albumImagePath);
+        // 一意なクラス名を生成（例: thumb-sm12345678）
+        const thumbClass = `thumb-${
+          song[appsettings.mvIdCol] !== appsettings.noDataString
+            ? song[appsettings.mvIdCol]
+            : song[appsettings.youtubeMvIdCol]
+        }`;
 
-        // カード生成
-        tag += '      <div class="card-item ' + imageName + '">';
+        // 背景画像CSS追加（重複を避ける）
+        if (!cssRules.includes(thumbClass)) {
+          const rule = `.${thumbClass}::before { background-image: url(${thumbnailUrl});}`;
+          cssRules.push(rule);
+          // styleSheet.insertRule(rule, styleSheet.cssRules.length);
+        }
+
+        // カード生成時にクラスを適用
+        tag += `      <div class="card-item ${thumbClass}">`;
 
         tag += createCardTitleTag(
           mvLeftDays,
@@ -383,9 +389,9 @@ function createDisplay(
     changeColor(0);
 
     // TODO 背景画像のcss設定
-    // cssRules.forEach((rule) =>
-    //   styleSheet.insertRule(rule, styleSheet.cssRules.length)
-    // );
+    cssRules.forEach((rule) =>
+      styleSheet.insertRule(rule, styleSheet.cssRules.length)
+    );
 
     // 画像拡大設定
     addEnlargeImageEvent();
