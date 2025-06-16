@@ -109,7 +109,7 @@ h1 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.12; /* 透明度を設定 (0.0 〜 1.0) */
+  opacity: 0.10; /* 透明度を設定 (0.0 〜 1.0) */
   z-index: 1; /* 背景画像を最背面に */
   pointer-events: none; /* 背景がクリックを邪魔しないように */
 }

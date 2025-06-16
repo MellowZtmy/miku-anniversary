@@ -396,3 +396,41 @@ function normalizeText(str) {
       ) => String.fromCharCode(s.charCodeAt(0) - 0x60)
     );
 }
+
+// ニコ動IDが存在して、YouTubeの代替URLがない場合だけ fetchThumbnail() 実行
+async function fetchAndSetNicoThumbnail(
+  videoId,
+  thumbClass,
+  styleSheet,
+  cssRules
+) {
+  // 既にスタイルが適用済みならスキップ
+  if (!videoId || cssRules.includes(thumbClass)) return;
+
+  const proxy = 'https://corsproxy.io/?';
+  const apiUrl = `https://ext.nicovideo.jp/api/getthumbinfo/${videoId}`;
+  const url = proxy + encodeURIComponent(apiUrl);
+
+  try {
+    const response = await fetch(url);
+    const xmlText = await response.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, 'application/xml');
+
+    const thumbnailUrl = xml.querySelector('thumbnail_url')?.textContent;
+
+    if (thumbnailUrl) {
+      // スタイルルール作成
+      const rule = ` .card-item.${thumbClass}::before { background-image: url(${thumbnailUrl}); } `;
+
+      if (!cssRules.includes(rule)) {
+        cssRules.push(rule);
+
+        // スタイルシートにルールを追加
+        styleSheet.insertRule(rule, styleSheet.cssRules.length);
+      }
+    }
+  } catch (error) {
+    console.error('ニコニコサムネイル取得失敗:', error);
+  }
+}
