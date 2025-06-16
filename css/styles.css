@@ -106,12 +106,14 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
+  background-size: 150%; /* ← ズーム率を上げる */
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.12; /* 透明度を設定 (0.0 〜 1.0) */
-  z-index: 1; /* 背景画像を最背面に */
-  pointer-events: none; /* 背景がクリックを邪魔しないように */
+  opacity: 0.12;
+  z-index: 1;
+  pointer-events: none;
+  filter: blur(4px); /* ぼかしは継続 */
+  transform: scale(1.5); /* ← ズーム倍率を追加 */
 }
 
 .card-item > * {
