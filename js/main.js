@@ -160,7 +160,7 @@ function initDisplay() {
 }
 
 // 画面タグ作成
-async function createDisplay(
+function createDisplay(
   mode = DISPLAY.MV.mode,
   page = 1,
   sortMode = SORTMODE.ANNIVERSARY.code
@@ -270,7 +270,8 @@ async function createDisplay(
       //////////////////////////////////////////
 
       tag += '     <div class="card-list">';
-      for (const song of sortedData.slice(listStartIndex, listEndIndex)) {
+      sortedData.slice(listStartIndex, listEndIndex).forEach(function (song) {
+        // MV日付情報取得
         const MVReleaseDateStr = song[appsettings.MVReleaseDateCol];
         const mvLeftDays = getDaysToNextMonthDay(MVReleaseDateStr);
         leftDaysList.push(mvLeftDays);
@@ -285,20 +286,11 @@ async function createDisplay(
             : song[appsettings.youtubeMvIdCol]
         }`;
 
-        // 背景画像CSS追加
+        // 背景画像CSS追加（重複を避ける）
         if (!cssRules.includes(thumbClass)) {
-          if (song[appsettings.mvIdCol] !== appsettings.noDataString) {
-            await fetchAndSetNicoThumbnail(
-              song[appsettings.mvIdCol],
-              thumbClass,
-              styleSheet,
-              cssRules
-            );
-          } else {
-            const rule = `.${thumbClass}::before { background-image: url(${thumbnailUrl}); }`;
-            styleSheet.insertRule(rule, styleSheet.cssRules.length);
-            cssRules.push(rule);
-          }
+          const rule = `.${thumbClass}::before { background-image: url(${thumbnailUrl});}`;
+          cssRules.push(rule);
+          // styleSheet.insertRule(rule, styleSheet.cssRules.length);
         }
 
         // カード生成時にクラスを適用
@@ -353,10 +345,13 @@ async function createDisplay(
             : 'Youtube') +
           'で見る<i class="fas fa-arrow-up-right-from-square"></i></a></div>';
 
-        tag += '<div class="card-date">' + MVReleaseDateStr + '</div>';
-        tag += '</div>'; // card-item
-      }
-      tag += '</div>'; // card-list
+        // MV公開年月日
+        tag +=
+          '           <div class="card-date">' + MVReleaseDateStr + '</div>';
+
+        tag += '        </div>'; //card-item
+      });
+      tag += '         </div>'; //card-list
       // 敬称略 or 該当なし
       if (sortedData.length !== 0) {
         tag += '<div class="right-text">※敬称略です</div>';
