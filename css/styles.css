@@ -106,10 +106,10 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: 150%; /* ← ズーム率を上げる */
+  background-size: 162%;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.12;
+  opacity: 0.16;
   z-index: 1;
   pointer-events: none;
   filter: blur(4px); /* ぼかしは継続 */
