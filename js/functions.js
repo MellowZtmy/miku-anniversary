@@ -371,17 +371,17 @@ function addCssRule(selector, cssRules, imagePath) {
 
 function getThumbnailUrl(song) {
   const nicoId = song[appsettings.mvIdCol];
+  const nicoThumbnailUrl = song[appsettings.niconicoThumbnailUrlCol];
   const ytId = song[appsettings.youtubeMvIdCol];
 
   if (nicoId !== appsettings.noDataString) {
-    // ニコニコ動画のサムネ（代替APIなしのため、thumbnail generator使用例）
-    return `https://tn.smilevideo.jp/smile?i=${nicoId.replace('sm', '')}`;
+    // ニコニコ動画のサムネ
+    return appsettings.niconicoThumbnailImageBase + nicoThumbnailUrl;
   } else if (ytId !== appsettings.noDataString) {
     // YouTubeのサムネ（高画質が無ければdefault）
     return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
-  } else {
-    return `${appsettings.albumImagePath}/${appsettings.liveImageDefault}`; // デフォルト画像
   }
+  return '';
 }
 
 //あいまい検索用

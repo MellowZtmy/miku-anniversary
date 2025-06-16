@@ -290,7 +290,6 @@ function createDisplay(
         if (!cssRules.includes(thumbClass)) {
           const rule = `.${thumbClass}::before { background-image: url(${thumbnailUrl});}`;
           cssRules.push(rule);
-          // styleSheet.insertRule(rule, styleSheet.cssRules.length);
         }
 
         // カード生成時にクラスを適用
