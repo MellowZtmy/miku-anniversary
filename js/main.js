@@ -311,12 +311,12 @@ function createDisplay(
         );
         // ここまでMV Youtube
 
-        //  キャッチフレーズ
-        if (song[appsettings.catchPhraseCol]) {
-          tag += '<div class="card-catchphrase-band">―';
-          tag += song[appsettings.catchPhraseCol];
-          tag += '</div>';
-        }
+        // //  TODOキャッチフレーズ　どうする
+        // if (song[appsettings.catchPhraseCol]) {
+        //   tag += '<div class="card-catchphrase-band">―';
+        //   tag += song[appsettings.catchPhraseCol];
+        //   tag += '</div>';
+        // }
 
         // MV 情報
         tag +=
