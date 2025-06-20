@@ -82,12 +82,6 @@ $(document).ready(async function () {
             )
           ).sort(),
         ],
-        composers: [
-          'すべて',
-          ...Array.from(
-            new Set(songsData.map((row) => row[appsettings.composerCol]))
-          ).sort(),
-        ],
       },
     };
 
@@ -197,6 +191,7 @@ function createDisplay(
             SORTMODE.HISTORY.defaultSortOrder
           );
     // フィルター項目
+    const normalizedComposer = normalizeText(composer); // ループ外で一度だけ
     const normalizedSongName = normalizeText(songName); // ループ外で一度だけ
     sortedData = sortedData.filter((song) => {
       const releaseYear = parseInt(
@@ -216,11 +211,11 @@ function createDisplay(
         vocaloid === 'すべて' || songVocaloids.includes(vocaloid);
 
       // ボカロPフィルター
-      const composerValue = song[appsettings.composerCol];
       const passesComposerFilter =
-        composer === 'すべて' ||
-        composerValue === composer ||
-        composerValue.includes(composer);
+        composer === '' ||
+        normalizeText(song[appsettings.composerCol]).includes(
+          normalizedComposer
+        );
 
       // 曲名フィルター
       const passesSongNameFilter =
