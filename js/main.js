@@ -145,12 +145,7 @@ function initDisplay() {
   $('#vocaloid').val(DISPLAY.MV.vocaloids[0]); // 最初のボーカロイドを選択
 
   // ボカロPフィルター作成
-  let vocaloPOptions = '';
-  DISPLAY.MV.composers.forEach((composer) => {
-    vocaloPOptions += `<option value="${composer}">${composer}</option>`;
-  });
-  $('#vocaloP').html(vocaloPOptions);
-  $('#vocaloP').val(DISPLAY.MV.composers[0]); // 最初のボカロPを選択
+  $('#vocaloP').val(''); // ボカロPフィルターを空に
 
   // 曲名初期化
   $('#songName').val(''); // 曲名フィルターを空に
@@ -178,7 +173,7 @@ function createDisplay(
     const startYear = $('#startYear').val();
     const endYear = $('#endYear').val();
     const vocaloid = $('#vocaloid').val();
-    const composer = $('#vocaloP').val();
+    const composer = $('#vocaloP').val().trim();
     const songName = $('#songName').val().trim();
 
     // スタイルシートを取得(背景画像設定用)

@@ -51,9 +51,14 @@
       </div>
       <div class="year-select-container">
         <label class="year-select-label">作曲者：</label>
-        <div class="year-select">
-          <select id="vocaloP" onchange="createDisplay()"></select>
-        </div>
+        <input
+          id="vocaloP"
+          type="text"
+          class="textbox-2"
+          value=""
+          placeholder="あいまいでもｲｲﾖｰ"
+          onblur="createDisplay()"
+        />
       </div>
       <div class="year-select-container">
         <label class="year-select-label">曲名：</label>
