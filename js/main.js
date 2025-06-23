@@ -321,6 +321,25 @@ function createDisplay(
           song[appsettings.vocaloidCol] +
           '</div>';
 
+        // ボカロ画像
+        var vocaloids = song[appsettings.vocaloidCol].split('・');
+        var vocaloid = vocaloids[getRamdomNumber(vocaloids.length)];
+        let isExistVocaloid = appsettings.vocaloidImages.includes(vocaloid);
+
+        if (isExistVocaloid) {
+          tag += ' <div class="album-container">';
+          tag +=
+            '<img src="' +
+            appsettings.imagePath +
+            '/' +
+            vocaloid +
+            '/' +
+            (getRamdomNumber(vocaloid === '初音ミク' ? 8 : 1) + 1) +
+            '.jpg" alt="' +
+            vocaloid +
+            '"class="album album">';
+          tag += '        </div>'; //album-container
+        }
         tag += '        </div>'; //card-info-container
 
         tag +=

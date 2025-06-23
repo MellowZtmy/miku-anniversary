@@ -165,6 +165,11 @@ function sortByMonthDay(arr, sortColIndex, sortOrder) {
   return arrWithDays.map((obj) => obj.row);
 }
 
+// 乱数生成
+function getRamdomNumber(num) {
+  return Math.floor(Math.random() * num);
+}
+
 // ソートタグ作成
 function createSortTag(display, sortedData) {
   //データなしの場合何もしない
