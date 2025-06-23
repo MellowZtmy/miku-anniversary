@@ -324,9 +324,10 @@ function createDisplay(
         // ボカロ画像
         var vocaloids = song[appsettings.vocaloidCol].split('・');
         var vocaloid = vocaloids[getRamdomNumber(vocaloids.length)];
-        let isExistVocaloid = appsettings.vocaloidImages.includes(vocaloid);
+        let vocaloidIndex = appsettings.vocaloidImages.indexOf(vocaloid);
 
-        if (isExistVocaloid) {
+        // ボカロ画像がある場合のみ表示
+        if (vocaloidIndex > -1) {
           tag += ' <div class="album-container">';
           tag +=
             '<img src="' +
@@ -334,7 +335,10 @@ function createDisplay(
             '/' +
             vocaloid +
             '/' +
-            (getRamdomNumber(vocaloid === '初音ミク' ? 8 : 1) + 1) +
+            (getRamdomNumber(
+              appsettings.vocaloidImageFileCounts[vocaloidIndex]
+            ) +
+              1) +
             '.jpg" alt="' +
             vocaloid +
             '"class="album album">';
@@ -364,6 +368,10 @@ function createDisplay(
       if (sortedData.length !== 0) {
         tag += '<div class="right-text">※敬称略です</div>';
       } else {
+        tag +=
+          '<img src="' +
+          appsettings.noResultimagePath +
+          '" alt="結果なしミク" class="album">';
         tag += `<div class="center-text">あれ、、見つかりませんでした<br>( TДT)ｺﾞﾒﾝﾈｰ</div>`;
       }
     }
