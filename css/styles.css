@@ -208,8 +208,8 @@ h1 {
 }
 
 .album {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 10px;
   object-fit: cover; /* 高さに合わせて画像を拡大し、はみ出た部分を切り抜く */
   object-position: center; /* 中央を基準にして切り抜く */
