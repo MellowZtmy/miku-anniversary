@@ -210,8 +210,8 @@ h1 {
 .album {
   display: block;         /* 画像は元々インライン要素なので、中央寄せにはこれが必要 */
   margin: 0 auto;
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   border-radius: 10px;
   object-fit: cover;
   object-position: center;
