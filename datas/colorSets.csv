@@ -1,5 +1,5 @@
 色名,背景(グラデーションの場合あり),テキスト線,ボタン,ボタン文字色
-初音ミク,linear-gradient(#95d2d3，#2a9795),#27292b,#fb8ec4,#ffffff
+初音ミク,linear-gradient(#95d2d3，#65b6b6),#27292b,#fb8ec4,#ffffff
 鏡音リン・レン,linear-gradient(#fffbd1，#fede4a),#141819,#0277b4,#ffffff
 巡音ルカ,linear-gradient(#fdf1f8，#dcb1cb),#1f334e,#b23f93,#ffffff
 GUMI,linear-gradient(#fff586，#ffa371),#1f334e,#81ca96,#ffffff
