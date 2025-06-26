@@ -406,16 +406,16 @@ function normalizeText(str) {
 $(window).on('scroll', function () {
   $('.blur').each(function () {
     var $elem = $(this);
+
+    if ($elem.hasClass('scrollin')) return;
+
     var elemTop = $elem.offset().top;
     var elemBottom = elemTop + $elem.outerHeight();
     var scrollTop = $(window).scrollTop();
     var windowBottom = scrollTop + $(window).height();
 
-    // 画面内に入っていれば .scrollin を追加、外れていれば削除
     if (elemBottom > scrollTop && elemTop < windowBottom) {
-      $elem.addClass('scrollin');
-    } else {
-      $elem.removeClass('scrollin');
+      $elem.addClass('scrollin'); // 一度だけぼかし解除
     }
   });
 });
