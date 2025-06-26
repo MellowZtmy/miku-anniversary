@@ -411,6 +411,9 @@ function createDisplay(
 
     // 画像拡大設定
     addEnlargeImageEvent();
+
+    //ぼかし解除
+    removeBlur();
   } catch (error) {
     // エラーハンドリング
     showError('Failed to createDisplay:', error);
