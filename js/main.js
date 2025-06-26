@@ -259,7 +259,7 @@ function createDisplay(
       // MV情報
       //////////////////////////////////////////
 
-      tag += '     <div class="card-list">';
+      tag += '     <div class="card-list fade-up">';
       sortedData.slice(listStartIndex, listEndIndex).forEach(function (song) {
         // MV日付情報取得
         const MVReleaseDateStr = song[appsettings.MVReleaseDateCol];
