@@ -403,14 +403,19 @@ function normalizeText(str) {
 }
 
 //スクロールでぼかし解除
-$(window).scroll(function () {
+$(window).on('scroll', function () {
   $('.blur').each(function () {
-    var elemPos = $(this).offset().top,
-      scroll = $(window).scrollTop(),
-      windowHeight = $(window).height();
+    var $elem = $(this);
+    var elemTop = $elem.offset().top;
+    var elemBottom = elemTop + $elem.outerHeight();
+    var scrollTop = $(window).scrollTop();
+    var windowBottom = scrollTop + $(window).height();
 
-    if (scroll > elemPos - windowHeight + 150) {
-      $(this).addClass('scrollin');
+    // 画面内に入っていれば .scrollin を追加、外れていれば削除
+    if (elemBottom > scrollTop && elemTop < windowBottom) {
+      $elem.addClass('scrollin');
+    } else {
+      $elem.removeClass('scrollin');
     }
   });
 });
