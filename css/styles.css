@@ -455,7 +455,7 @@ h1 {
 
 /* ぼかしと解除 */
 .blur{
-    transition: all 1.2s;
+    transition: all 0.8s;
     filter: blur(10px);
     &.scrollin{
       filter: blur(0);
