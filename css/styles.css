@@ -109,7 +109,7 @@ h1 {
   background-size: 180%;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.3;
+  opacity: 0.16;
   z-index: 1;
   pointer-events: none;
   filter: blur(4px); /* ぼかしは継続 */
